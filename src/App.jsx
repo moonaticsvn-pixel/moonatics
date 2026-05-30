@@ -1621,34 +1621,22 @@ function ZoomImg({ src, alt, style, className }) {
 // ─── Fetch Google Drive folder files ──────────────────────────────────────────
 // Uses the public Drive API with no-CORS trick via a shared fetch approach.
 // Files must be shared "Anyone with the link". Returns [{id, name}] or null on error.
-// Fetch public Google Drive folder contents — no API key, no auth needed.
+// Fetch public Google Drive folder contents via our Vercel serverless function.
 // Folders must be shared "Anyone with the link can view".
-// Uses multiple CORS proxy fallbacks for reliability.
 async function fetchDriveFolder(folderId) {
   if (!folderId) return [];
-
-  const apiUrl = `https://www.googleapis.com/drive/v3/files?q=%27${folderId}%27+in+parents+and+trashed%3Dfalse&fields=files(id%2Cname%2CmimeType)&orderBy=name&key=AIzaSyC_rcXNfzEMTWPnOdxBVA7czQFlkH0tRrY`;
-
-  // Try multiple CORS proxies in order
-  const proxies = [
-    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-    u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
-    u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
-  ];
-
-  for (const proxy of proxies) {
-    try {
-      const res = await fetch(proxy(apiUrl), { signal: AbortSignal.timeout(6000) });
-      if (!res.ok) continue;
-      const json = await res.json();
-      if (json.files) {
-        return json.files
-          .filter(f => f.mimeType?.startsWith("image/"))
-          .map(f => ({ id: f.id, name: f.name.replace(/\.[^.]+$/, "") }));
-      }
-    } catch { continue; }
+  try {
+    const res = await fetch(`/api/drive-folder?id=${folderId}`, {
+      signal: AbortSignal.timeout(10000)
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (Array.isArray(data)) return data;
+    throw new Error(data.error || 'bad response');
+  } catch (err) {
+    console.error('fetchDriveFolder error:', err);
+    return null;
   }
-  return null;
 }
 
 function ComicPage({ data }) {
