@@ -71,9 +71,12 @@ const defaultData = {
   youtubeId: "dQw4w9WgXcQ",
   heartMessage: 'Trong thời đại mà "từ thiện" đã trở thành từ nhạy cảm, Tôi xin khẳng định: HÃY NUÔI TÔI!\n\nTôi nghèo, tôi cần tiền, nhưng tôi KHÔNG MẤT LƯƠNG TÂM! Mỗi đồng tiền các bạn gửi, tôi sẽ chi tiêu rõ ràng, minh bạch như bụng đói của tôi vậy! 🫃\n\nP/S: Tôi hứa sẽ không mua xe hơi bằng tiền donate. Vì... tôi chưa có bằng lái! 🚗❌',
   disclaimer: 'DISCLAIMER: Đây là trang web mang tính chất HÀI HƯỚC Mọi nội dung đều mang tính giải trí, không nhằm mục đích xúc phạm hay chỉ trích bất kỳ cá nhân/tổ chức nào.',
-  comicUrls: ["",""],
-  artworkUrls: Array(6).fill(""),
-  fanartUrls: Array(6).fill(null).map(() => ({url:"", credit:""})),
+  comicFolderId: "1lkHGRf2-XkxnJF6yQ215WpcK5mGmSjmM",
+  artworkFolderId: "1zhJ3FjjCyuUTsTJ-VQyYdFOr2FAYQx3b",
+  fanartFolderId: "1vxpJm68ToxMyJAC2SZ_P3klMw6nY9Lxp",
+  comicUrls: [],
+  artworkUrls: [],
+  fanartUrls: [],
   memberImages: {
     "Red Spade": [null, null],
     "Blue Clover": [null, null],
@@ -1213,7 +1216,7 @@ function ProfileSlider({ images, color, name }) {
       <div className="profile-slider-track">
         {count > 1 && <button className="profile-slider-btn prev" onClick={() => setIdx(i => (i-1+count)%count)}>‹</button>}
         {current
-          ? <img src={driveImg(current)} alt={name} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
+          ? <ZoomImg src={driveImg(current)} alt={name} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
           : <div className="profile-slide-placeholder">
               <span style={{fontSize:48,color,WebkitTextFillColor:color}}>{name?.charAt(0)}</span>
               <span style={{fontSize:10,color:"rgba(196,181,253,0.4)"}}>Ảnh {idx+1}/{count}</span>
@@ -1273,6 +1276,10 @@ function MemberDetailCard({ m, memberImages }) {
 function MembersPage({ data }) {
   const [tab, setTab] = useState("active");
   const memberImages = data?.memberImages || {};
+  const activeMembers = data?.membersActive || MEMBERS_ACTIVE;
+  const graduatedMembers = data?.membersGraduated || MEMBERS_GRADUATED;
+  const supportMembers = data?.membersSupport || MEMBERS_SUPPORT;
+  const guestMembers = data?.membersGuest || MEMBERS_GUEST;
   return (
     <div className="inner-page">
       <div className="page-title">👥 Thành Viên</div>
@@ -1282,13 +1289,13 @@ function MembersPage({ data }) {
         ))}
       </div>
 
-      {tab === "active" && <div>{MEMBERS_ACTIVE.map((m,i) => <MemberDetailCard key={i} m={m} memberImages={memberImages} />)}</div>}
+      {tab === "active" && <div>{activeMembers.map((m,i) => <MemberDetailCard key={i} m={m} memberImages={memberImages} />)}</div>}
 
       {tab === "graduated" && <div>
         <div style={{fontSize:12,color:"rgba(196,181,253,0.5)",marginBottom:16,padding:"10px 14px",background:"rgba(248,113,113,0.08)",border:"1px solid rgba(248,113,113,0.2)",borderRadius:10}}>
           Các thành viên đã tốt nghiệp khỏi Moonatics. Cảm ơn vì những đóng góp của họ! 💙
         </div>
-        {MEMBERS_GRADUATED.map((m,i) => <MemberDetailCard key={i} m={m} memberImages={memberImages} />)}
+        {graduatedMembers.map((m,i) => <MemberDetailCard key={i} m={m} memberImages={memberImages} />)}
       </div>}
 
       {tab === "support" && <div>
@@ -1296,11 +1303,11 @@ function MembersPage({ data }) {
           Các thành viên vệ tinh của nhóm — hỗ trợ từ hậu trường.
         </div>
         <div className="supportee-grid">
-          {MEMBERS_SUPPORT.map((m,i) => (
+          {supportMembers.map((m,i) => (
             <div className="supportee-card" key={i}>
               <div style={{width:"100%",aspectRatio:"1/1",borderRadius:12,overflow:"hidden",marginBottom:14,border:"1px solid rgba(139,92,246,0.2)"}}>
                 {memberImages?.[m.name]?.[0]
-                  ? <img src={driveImg(memberImages[m.name][0])} alt={m.name} style={{width:"100%",height:"100%",objectFit:"cover"}} />
+                  ? <ZoomImg src={driveImg(memberImages[m.name][0])} alt={m.name} style={{width:"100%",height:"100%",objectFit:"cover"}} />
                   : <div style={{width:"100%",height:"100%",background:"rgba(139,92,246,0.08)",border:"1px dashed rgba(139,92,246,0.3)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",fontSize:11,color:"rgba(196,181,253,0.4)",gap:6}}>
                       <span style={{fontSize:36}}>{m.emoji}</span><span>Placeholder</span>
                     </div>
@@ -1332,11 +1339,11 @@ function MembersPage({ data }) {
           <table className="music-table">
             <thead><tr><th>#</th><th>Tên</th><th>Vai trò</th><th>Xuất hiện từ</th></tr></thead>
             <tbody>
-              {MEMBERS_GUEST.map((g,i) => (
+              {guestMembers.map((g,i) => (
                 <tr key={i}>
                   <td>
                     {memberImages?.[g.name]?.[0]
-                      ? <img src={driveImg(memberImages[g.name][0])} alt={g.name} style={{width:36,height:36,borderRadius:8,objectFit:"cover",display:"block"}} />
+                      ? <img src={driveImg(memberImages[g.name][0])} alt={g.name} style={{width:36,height:36,borderRadius:8,objectFit:"cover",display:"block",cursor:"default"}} />
                       : <div style={{width:36,height:36,borderRadius:8,background:"rgba(139,92,246,0.1)",border:"1px dashed rgba(139,92,246,0.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}}>{g.emoji}</div>
                     }
                   </td>
@@ -1370,7 +1377,7 @@ function OriginalTab({ releases }) {
           <div>
             <div style={{borderRadius:16,overflow:"hidden",aspectRatio:"1/1",background:"rgba(139,92,246,0.1)",border:"1px solid rgba(139,92,246,0.2)",marginBottom:16}}>
               {r.artwork
-                ? <img src={driveImg(r.artwork)} alt={r.title} style={{width:"100%",height:"100%",objectFit:"cover"}} />
+                ? <ZoomImg src={driveImg(r.artwork)} alt={r.title} style={{width:"100%",height:"100%",objectFit:"cover"}} />
                 : <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:64}}>🎵</div>
               }
             </div>
@@ -1442,7 +1449,7 @@ function OriginalTab({ releases }) {
           onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
           <div style={{aspectRatio:"1/1",background:"rgba(139,92,246,0.1)"}}>
             {r.artwork
-              ? <img src={driveImg(r.artwork)} alt={r.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
+              ? <ZoomImg src={driveImg(r.artwork)} alt={r.title} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
               : <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:48}}>🎵</div>
             }
           </div>
@@ -1579,54 +1586,142 @@ function MusicPage({ data }) {
 }
 
 // ─── Comic Page ────────────────────────────────────────────────────────────────
+
+// ─── Lightbox ──────────────────────────────────────────────────────────────────
+function Lightbox({ src, alt, onClose }) {
+  React.useEffect(() => {
+    const handler = e => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+  return (
+    <div onClick={onClose} style={{position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.92)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"zoom-out",backdropFilter:"blur(6px)"}}>
+      <button onClick={onClose} style={{position:"absolute",top:18,right:22,background:"none",border:"none",color:"#fff",fontSize:28,cursor:"pointer",lineHeight:1,opacity:.7}}>✕</button>
+      <img
+        src={src} alt={alt||""}
+        onClick={e => e.stopPropagation()}
+        style={{maxWidth:"92vw",maxHeight:"90vh",objectFit:"contain",borderRadius:10,boxShadow:"0 8px 60px rgba(0,0,0,0.7)",cursor:"default"}}
+      />
+    </div>
+  );
+}
+
+// ─── clickable image wrapper ───────────────────────────────────────────────────
+function ZoomImg({ src, alt, style, className }) {
+  const [open, setOpen] = useState(false);
+  if (!src) return null;
+  return (
+    <>
+      <img src={src} alt={alt||""} style={{...style, cursor:"zoom-in"}} className={className} onClick={() => setOpen(true)} />
+      {open && <Lightbox src={src} alt={alt} onClose={() => setOpen(false)} />}
+    </>
+  );
+}
+
+// ─── Fetch Google Drive folder files ──────────────────────────────────────────
+// Uses the public Drive API with no-CORS trick via a shared fetch approach.
+// Files must be shared "Anyone with the link". Returns [{id, name}] or null on error.
+// Fetch public Google Drive folder contents — no API key, no auth needed.
+// Folders must be shared "Anyone with the link can view".
+// Uses multiple CORS proxy fallbacks for reliability.
+async function fetchDriveFolder(folderId) {
+  if (!folderId) return [];
+
+  const apiUrl = `https://www.googleapis.com/drive/v3/files?q=%27${folderId}%27+in+parents+and+trashed%3Dfalse&fields=files(id%2Cname%2CmimeType)&orderBy=name&key=AIzaSyC_rcXNfzEMTWPnOdxBVA7czQFlkH0tRrY`;
+
+  // Try multiple CORS proxies in order
+  const proxies = [
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+    u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+    u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+  ];
+
+  for (const proxy of proxies) {
+    try {
+      const res = await fetch(proxy(apiUrl), { signal: AbortSignal.timeout(6000) });
+      if (!res.ok) continue;
+      const json = await res.json();
+      if (json.files) {
+        return json.files
+          .filter(f => f.mimeType?.startsWith("image/"))
+          .map(f => ({ id: f.id, name: f.name.replace(/\.[^.]+$/, "") }));
+      }
+    } catch { continue; }
+  }
+  return null;
+}
+
 function ComicPage({ data }) {
-  const urls = data?.comicUrls || ["",""];
+  const folderId = data?.comicFolderId || "1lkHGRf2-XkxnJF6yQ215WpcK5mGmSjmM";
+  const [files, setFiles] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  React.useEffect(() => {
+    setLoading(true);
+    fetchDriveFolder(folderId).then(res => {
+      setFiles(res);
+      setLoading(false);
+    });
+  }, [folderId]);
+
   return (
     <div className="inner-page">
       <div className="page-title">📖 Truyện Tranh Moonatics</div>
-      <div className="comic-grid">
-        {urls.map((url,i) => url ? (
-          <img key={i} src={driveImg(url)} alt={`Trang ${i+1}`} style={{width:"100%",borderRadius:16,border:"1px solid rgba(139,92,246,0.3)"}} />
-        ) : (
-          <div className="comic-placeholder" key={i}>
-            <span>🖼️</span>Trang {i+1} — Ảnh sẽ được thêm vào sau
+      {loading && <div style={{textAlign:"center",padding:"40px 0",color:"rgba(196,181,253,0.5)"}}>⏳ Đang tải...</div>}
+      {!loading && files === null && <div style={{textAlign:"center",padding:"40px 0",color:"rgba(196,181,253,0.4)",fontSize:13}}>⚠️ Không thể tải ảnh. Folder phải được chia sẻ "Anyone with the link".</div>}
+      {!loading && files && files.length === 0 && <div style={{textAlign:"center",padding:"40px 0",color:"rgba(196,181,253,0.4)"}}>Chưa có trang nào.</div>}
+      {!loading && files && files.length > 0 && (
+        <div className="comic-grid">
+          {files.map((f,i) => (
+            <ZoomImg key={f.id} src={`https://lh3.googleusercontent.com/d/${f.id}`} alt={f.name} style={{width:"100%",borderRadius:16,border:"1px solid rgba(139,92,246,0.3)"}} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DriveFolderGrid({ folderId, emptyMsg }) {
+  const [files, setFiles] = useState(null);
+  const [loading, setLoading] = useState(true);
+  React.useEffect(() => {
+    if (!folderId) { setLoading(false); return; }
+    setLoading(true);
+    fetchDriveFolder(folderId).then(res => { setFiles(res); setLoading(false); });
+  }, [folderId]);
+
+  if (loading) return <div style={{color:"rgba(196,181,253,0.4)",fontSize:12,padding:"20px 0"}}>⏳ Đang tải...</div>;
+  if (!files) return <div style={{color:"rgba(196,181,253,0.4)",fontSize:12,padding:"8px 0"}}>⚠️ Không thể tải — hãy chắc chắn folder đã public.</div>;
+  if (files.length === 0) return <div style={{color:"rgba(196,181,253,0.4)",fontSize:12}}>{emptyMsg || "Chưa có ảnh."}</div>;
+  return (
+    <div className="gallery-grid">
+      {files.map(f => {
+        const src = `https://lh3.googleusercontent.com/d/${f.id}`;
+        return (
+          <div key={f.id} style={{position:"relative",borderRadius:12,overflow:"hidden",border:"1px solid rgba(139,92,246,0.3)"}}>
+            <ZoomImg src={src} alt={f.name} style={{width:"100%",aspectRatio:"1/1",objectFit:"cover",display:"block"}} />
+            {f.name && (
+              <div style={{position:"absolute",bottom:0,left:0,right:0,background:"rgba(0,0,0,0.6)",backdropFilter:"blur(4px)",padding:"6px 10px",fontSize:11,color:"#c4b5fd",fontWeight:600,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+                ✏️ {f.name}
+              </div>
+            )}
           </div>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }
 
 function GalleryPage({ data }) {
-  const artworks = data?.artworkUrls || Array(6).fill("");
-  const fanarts = data?.fanartUrls || Array(6).fill(null).map(()=>({url:"",credit:""}));
+  const artworkFolderId = data?.artworkFolderId || "1zhJ3FjjCyuUTsTJ-VQyYdFOr2FAYQx3b";
+  const fanartFolderId  = data?.fanartFolderId  || "1vxpJm68ToxMyJAC2SZ_P3klMw6nY9Lxp";
   return (
     <div className="inner-page">
       <div className="page-title">🖼️ Gallery</div>
       <div className="gallery-section-title">🎨 Moonatics's Artwork</div>
-      <div className="gallery-grid">
-        {artworks.map((url,i) => url
-          ? <img key={i} src={driveImg(url)} alt={`Artwork ${i+1}`} style={{width:"100%",aspectRatio:"1/1",objectFit:"cover",borderRadius:12,border:"1px solid rgba(139,92,246,0.3)"}} />
-          : <div key={i} className="gallery-placeholder"><span>🖼️</span>Artwork {i+1}</div>
-        )}
-      </div>
+      <DriveFolderGrid folderId={artworkFolderId} emptyMsg="Chưa có artwork." />
       <div className="gallery-section-title">💜 Moonatics's Fanart</div>
-      <div className="gallery-grid">
-        {fanarts.map((item,i) => {
-          const url = typeof item === "string" ? item : item?.url;
-          const credit = typeof item === "object" ? item?.credit : "";
-          return url ? (
-            <div key={i} style={{position:"relative",borderRadius:12,overflow:"hidden",border:"1px solid rgba(139,92,246,0.3)"}}>
-              <img src={url} alt={`Fanart ${i+1}`} style={{width:"100%",aspectRatio:"1/1",objectFit:"cover",display:"block"}} />
-              {credit && (
-                <div style={{position:"absolute",bottom:0,left:0,right:0,background:"rgba(0,0,0,0.6)",backdropFilter:"blur(4px)",padding:"6px 10px",fontSize:11,color:"#c4b5fd",fontWeight:600}}>
-                  ✏️ {credit}
-                </div>
-              )}
-            </div>
-          ) : <div key={i} className="gallery-placeholder"><span>🎨</span>Fanart {i+1}</div>;
-        })}
-      </div>
+      <DriveFolderGrid folderId={fanartFolderId} emptyMsg="Chưa có fanart." />
     </div>
   );
 }
@@ -1794,10 +1889,10 @@ function ListsTab({ data, onSave }) {
 // ─── Members CMS ──────────────────────────────────────────────────────────────
 function MembersCMSTab({ data, onSave }) {
   const [section, setSection] = useState("active");
-  const [members, setMembers] = useState(MEMBERS_ACTIVE.map(m=>({...m})));
-  const [graduated, setGraduated] = useState(MEMBERS_GRADUATED.map(m=>({...m})));
-  const [support, setSupport] = useState(MEMBERS_SUPPORT.map(m=>({...m})));
-  const [guests, setGuests] = useState(MEMBERS_GUEST.map(g=>({...g})));
+  const [members, setMembers] = useState((data.membersActive || MEMBERS_ACTIVE).map(m=>({...m})));
+  const [graduated, setGraduated] = useState((data.membersGraduated || MEMBERS_GRADUATED).map(m=>({...m})));
+  const [support, setSupport] = useState((data.membersSupport || MEMBERS_SUPPORT).map(m=>({...m})));
+  const [guests, setGuests] = useState((data.membersGuest || MEMBERS_GUEST).map(g=>({...g})));
 
   const updateField = (arr, setArr, i, field, val) =>
     setArr(arr.map((x,idx) => idx===i ? {...x,[field]:val} : x));
@@ -1848,8 +1943,7 @@ function MembersCMSTab({ data, onSave }) {
         <button className="add-btn" onClick={()=>setGuests(p=>[...p,{name:"",role:"",since:""}])}><PlusIcon /> Thêm</button>
       </>}
 
-      <div style={{fontSize:11,color:"rgba(196,181,253,0.4)",margin:"8px 0"}}>⚠️ Lưu ý: Thay đổi thành viên sẽ cập nhật ngay lập tức khi refresh trang.</div>
-      <button className="save-btn" onClick={()=>{ Object.assign(MEMBERS_ACTIVE, members); onSave({...data}); }}><SaveIcon /> Lưu</button>
+      <button className="save-btn" onClick={()=>onSave({...data, membersActive:members, membersGraduated:graduated, membersSupport:support, membersGuest:guests})}><SaveIcon /> Lưu</button>
     </>
   );
 }
@@ -1947,13 +2041,9 @@ function OriginalCMSTab({ data, onSave }) {
 
 // ─── Media CMS ────────────────────────────────────────────────────────────────
 function MediaCMSTab({ data, onSave }) {
-  const [comicUrls, setComicUrls] = useState(data.comicUrls?.length ? [...data.comicUrls] : ["",""]);
-  const [artworkUrls, setArtworkUrls] = useState(data.artworkUrls?.length ? [...data.artworkUrls] : Array(6).fill(""));
-  const [fanartUrls, setFanartUrls] = useState(
-    data.fanartUrls?.length
-      ? data.fanartUrls.map(f => typeof f === "string" ? {url:f,credit:""} : ({...f}))
-      : Array(6).fill(null).map(()=>({url:"",credit:""}))
-  );
+  const [comicFolderId, setComicFolderId] = useState(data.comicFolderId || "1lkHGRf2-XkxnJF6yQ215WpcK5mGmSjmM");
+  const [artworkFolderId, setArtworkFolderId] = useState(data.artworkFolderId || "1zhJ3FjjCyuUTsTJ-VQyYdFOr2FAYQx3b");
+  const [fanartFolderId, setFanartFolderId] = useState(data.fanartFolderId || "1vxpJm68ToxMyJAC2SZ_P3klMw6nY9Lxp");
   const [memberImages, setMemberImages] = useState(
     data.memberImages ? JSON.parse(JSON.stringify(data.memberImages)) : {}
   );
@@ -2004,31 +2094,25 @@ function MediaCMSTab({ data, onSave }) {
       ))}
       <button className="add-btn" onClick={()=>addMemberImg(memberTab)} style={{marginBottom:20}}><PlusIcon /> Thêm ảnh cho {memberTab.split(" ")[0]}</button>
 
-      {/* ── Comic ── */}
-      <div style={{fontWeight:700,fontSize:13,color:"#c4b5fd",marginBottom:10}}>📖 Truyện Tranh (URL ảnh)</div>
-      {comicUrls.map((url,i) => (
-        <Field key={i} label={`Trang ${i+1}`} value={url} onChange={v=>setComicUrls(a=>{const n=[...a];n[i]=v;return n;})} />
-      ))}
-      <button className="add-btn" onClick={()=>setComicUrls(a=>[...a,""])} style={{marginBottom:16}}><PlusIcon /> Thêm trang</button>
+      {/* ── Folder IDs ── */}
+      <div style={{fontWeight:700,fontSize:13,color:"#c4b5fd",marginBottom:6}}>📁 Google Drive Folder IDs</div>
+      <div style={{fontSize:11,color:"rgba(196,181,253,0.45)",marginBottom:12,lineHeight:1.6}}>
+        Ảnh được tải tự động từ folder Drive. Tên file = Credit hiển thị. Folder phải được chia sẻ "Anyone with the link can view".
+      </div>
+      <Field label="📖 Truyện Tranh — Folder ID" value={comicFolderId} onChange={setComicFolderId} />
+      <div style={{fontSize:10,color:"rgba(196,181,253,0.35)",marginTop:-8,marginBottom:12}}>
+        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>1lkHGRf2-XkxnJF6yQ215WpcK5mGmSjmM</b>
+      </div>
+      <Field label="🎨 Artwork — Folder ID" value={artworkFolderId} onChange={setArtworkFolderId} />
+      <div style={{fontSize:10,color:"rgba(196,181,253,0.35)",marginTop:-8,marginBottom:12}}>
+        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>1zhJ3FjjCyuUTsTJ-VQyYdFOr2FAYQx3b</b>
+      </div>
+      <Field label="💜 Fanart — Folder ID" value={fanartFolderId} onChange={setFanartFolderId} />
+      <div style={{fontSize:10,color:"rgba(196,181,253,0.35)",marginTop:-8,marginBottom:16}}>
+        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>1vxpJm68ToxMyJAC2SZ_P3klMw6nY9Lxp</b>
+      </div>
 
-      {/* ── Artwork ── */}
-      <div style={{fontWeight:700,fontSize:13,color:"#c4b5fd",margin:"16px 0 10px"}}>🎨 Artwork (URL ảnh)</div>
-      {artworkUrls.map((url,i) => (
-        <Field key={i} label={`Artwork ${i+1}`} value={url} onChange={v=>setArtworkUrls(a=>{const n=[...a];n[i]=v;return n;})} />
-      ))}
-      <button className="add-btn" onClick={()=>setArtworkUrls(a=>[...a,""])} style={{marginBottom:16}}><PlusIcon /> Thêm ảnh</button>
-
-      {/* ── Fanart ── */}
-      <div style={{fontWeight:700,fontSize:13,color:"#c4b5fd",margin:"16px 0 10px"}}>💜 Fanart (URL + Credit)</div>
-      {fanartUrls.map((item,i) => (
-        <div key={i} style={{background:"rgba(139,92,246,0.08)",border:"1px solid rgba(139,92,246,0.2)",borderRadius:10,padding:12,marginBottom:8}}>
-          <Field label={`Fanart ${i+1} - URL`} value={item.url} onChange={v=>setFanartUrls(a=>{const n=[...a];n[i]={...n[i],url:v};return n;})} />
-          <Field label="Credit (tên người vẽ)" value={item.credit} onChange={v=>setFanartUrls(a=>{const n=[...a];n[i]={...n[i],credit:v};return n;})} />
-        </div>
-      ))}
-      <button className="add-btn" onClick={()=>setFanartUrls(a=>[...a,{url:"",credit:""}])} style={{marginBottom:16}}><PlusIcon /> Thêm fanart</button>
-
-      <button className="save-btn" onClick={()=>onSave({...data,comicUrls,artworkUrls,fanartUrls,memberImages})}><SaveIcon /> Lưu tất cả</button>
+      <button className="save-btn" onClick={()=>onSave({...data,comicFolderId,artworkFolderId,fanartFolderId,memberImages})}><SaveIcon /> Lưu tất cả</button>
     </>
   );
 }
