@@ -874,7 +874,7 @@ export default function App() {
         </nav>
 
         {currentPage === "members" && <MembersPage data={data} />}
-        {currentPage === "music" && <MusicPage />}
+        {currentPage === "music" && <MusicPage data={data} />}
         {currentPage === "comic" && <ComicPage data={data} />}
         {currentPage === "gallery" && <GalleryPage data={data} />}
         {currentPage === "home" && <div className="hero">
@@ -1542,14 +1542,14 @@ function MusicTable({ songs }) {
   );
 }
 
-function MusicPage() {
-  const [tab, setTab] = useState("covers");
+function MusicPage({ data }) {
+  const [tab, setTab] = useState("original");
   return (
     <div className="inner-page">
       <div className="page-title">🎵 Âm Nhạc</div>
       <div className="music-tabs">
-        <button className={`music-tab${tab==="covers"?" active":""}`} onClick={() => setTab("covers")}>Cover ({ALL_COVERS.length})</button>
         <button className={`music-tab${tab==="original"?" active":""}`} onClick={() => setTab("original")}>Original</button>
+        <button className={`music-tab${tab==="covers"?" active":""}`} onClick={() => setTab("covers")}>Cover ({ALL_COVERS.length})</button>
       </div>
       {tab === "covers" && <>
         <div className="music-count">{ALL_COVERS.length} bài • Cuộn để xem thêm</div>
