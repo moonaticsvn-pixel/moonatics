@@ -8,13 +8,18 @@ const ADMIN_PASSWORD = "joker2018";
 // Convert Google Drive share/view URLs to direct image URLs
 function driveImg(url) {
   if (!url) return url;
-  // Handle https://drive.google.com/file/d/FILE_ID/view
-  const fileMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
-  if (fileMatch) return `https://drive.google.com/uc?export=view&id=${fileMatch[1]}`;
-  // Handle https://drive.google.com/open?id=FILE_ID
-  const openMatch = url.match(/[?&]id=([^&]+)/);
-  if (openMatch && url.includes('drive.google.com')) return `https://drive.google.com/uc?export=view&id=${openMatch[1]}`;
-  // Already a direct uc link — keep as is
+  // Extract Google Drive file ID from any Drive URL format
+  let id = null;
+  // https://drive.google.com/file/d/FILE_ID/view
+  const fileMatch = url.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+  if (fileMatch) id = fileMatch[1];
+  // https://drive.google.com/open?id=FILE_ID or uc?id=FILE_ID
+  if (!id) {
+    const qMatch = url.match(/[?&]id=([a-zA-Z0-9_-]{20,})/);
+    if (qMatch) id = qMatch[1];
+  }
+  // Use thumbnail URL — this bypasses CORS and virus scan redirect
+  if (id) return `https://lh3.googleusercontent.com/d/${id}`;
   return url;
 }
 
