@@ -1589,7 +1589,7 @@ function MusicPage({ data }) {
 
 // ─── Lightbox ──────────────────────────────────────────────────────────────────
 function Lightbox({ src, alt, onClose }) {
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = e => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -1656,7 +1656,7 @@ function ComicPage({ data }) {
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLoading(true);
     fetchDriveFolder(folderId).then(res => {
       setFiles(res);
@@ -1684,7 +1684,7 @@ function ComicPage({ data }) {
 function DriveFolderGrid({ folderId, emptyMsg }) {
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(true);
-  React.useEffect(() => {
+  useEffect(() => {
     if (!folderId) { setLoading(false); return; }
     setLoading(true);
     fetchDriveFolder(folderId).then(res => { setFiles(res); setLoading(false); });
