@@ -1193,6 +1193,15 @@ const MEMBERS_ACTIVE = [
 
 const MEMBERS_GRADUATED = [
   {
+    name: "Black Jack", altName: "", color: "#1a1a2e", icon: "★",
+    gender: "", star: "", vocal: "", status: "Inactive",
+    joined: "", roles: [],
+    images: [null, null],
+    bio: "",
+    facts: [],
+    achievements: [],
+  },
+  {
     name: "Pink Heart", altName: "MJA, MJA TRAN", color: "#ec4899", icon: "♥",
     gender: "Nữ", star: "Thiên Yết", vocal: "Female Mezzo Soprano", status: "Inactive",
     joined: "Oct 2024", roles: ["Vocalist", "Lyricist", "Composer"],
@@ -1983,13 +1992,30 @@ function MemberRow({arr, setArr, m, i, fields, onUpdate, onDel}) {
   const updateField = (field, val) => onUpdate(i, field, val);
   return (
     <div style={{background:"rgba(139,92,246,0.08)",border:"1px solid rgba(139,92,246,0.2)",borderRadius:10,padding:12,marginBottom:10}}>
+      <div style={{fontWeight:700,fontSize:12,color:"rgba(196,181,253,0.6)",marginBottom:8}}>{m.name || "(Chưa đặt tên)"}</div>
       <div className="row2">
         <Field label="Tên" value={m.name} onChange={v=>updateField("name",v)} />
         <Field label="Alt Name" value={m.altName||""} onChange={v=>updateField("altName",v)} />
       </div>
-      {fields?.includes("bio") && <Field label="Bio" value={m.bio||""} onChange={v=>updateField("bio",v)} textarea rows={2} />}
+      {fields?.includes("bio") && <>
+        <div className="row2">
+          <Field label="⚧ Giới tính" value={m.gender||""} onChange={v=>updateField("gender",v)} />
+          <Field label="⭐ Chòm sao" value={m.star||""} onChange={v=>updateField("star",v)} />
+        </div>
+        <div className="row2">
+          <Field label="🎙️ Vocal Range" value={m.vocal||""} onChange={v=>updateField("vocal",v)} />
+          <Field label="🎨 Màu sắc" value={m.color||""} onChange={v=>updateField("color",v)} />
+        </div>
+        <Field label="Bio" value={m.bio||""} onChange={v=>updateField("bio",v)} textarea rows={2} />
+      </>}
       {fields?.includes("roles") && <Field label="Roles (phân cách bởi dấu phẩy)" value={(m.roles||[]).join(", ")} onChange={v=>updateField("roles",v.split(", "))} />}
-      {fields?.includes("desc") && <Field label="Mô tả ngắn" value={m.desc||""} onChange={v=>updateField("desc",v)} textarea rows={2} />}
+      {fields?.includes("desc") && <>
+        <div className="row2">
+          <Field label="⭐ Chòm sao" value={m.star||""} onChange={v=>updateField("star",v)} />
+          <Field label="🎙️ Vocal Range" value={m.vocal||""} onChange={v=>updateField("vocal",v)} />
+        </div>
+        <Field label="Mô tả ngắn" value={m.desc||""} onChange={v=>updateField("desc",v)} textarea rows={2} />
+      </>}
       {fields?.includes("joined") && <Field label="Ngày tham gia" value={m.joined||""} onChange={v=>updateField("joined",v)} />}
       {fields?.includes("status") && <Field label="Status" value={m.status||""} onChange={v=>updateField("status",v)} />}
       {fields?.includes("role") && <Field label="Vai trò" value={m.role||""} onChange={v=>updateField("role",v)} />}
