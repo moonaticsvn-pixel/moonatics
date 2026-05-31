@@ -762,6 +762,36 @@ const css = `
     font-family: 'Be Vietnam Pro', sans-serif; transition: all 0.2s;
   }
   .music-tab.active { background: rgba(139,92,246,0.2); color: #c4b5fd; border-color: rgba(139,92,246,0.6); }
+  .cover-list { display: flex; flex-direction: column; gap: 10px; }
+  .cover-card {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 12px;
+    align-items: center;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(139,92,246,0.18);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: background .15s;
+  }
+  .cover-card:hover { background: rgba(139,92,246,0.07); }
+  .cover-art { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; background: rgba(139,92,246,0.12); flex-shrink: 0; display:flex; align-items:center; justify-content:center; font-size:22px; }
+  .cover-info { min-width:0; }
+  .cover-title { font-size: 13px; font-weight: 800; color: #e2d9f3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom: 3px; }
+  .cover-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11px; color: rgba(196,181,253,0.55); align-items:center; }
+  .cover-meta b { color: rgba(196,181,253,0.85); }
+  .cover-list { display: flex; flex-direction: column; gap: 10px; }
+  .cover-card {
+    display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(139,92,246,0.18);
+    border-radius: 12px; padding: 12px 14px; transition: background .15s;
+  }
+  .cover-card:hover { background: rgba(139,92,246,0.07); }
+  .cover-art { width:56px; height:56px; border-radius:8px; background:rgba(139,92,246,0.12); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .cover-info { min-width:0; }
+  .cover-title { font-size:13px; font-weight:800; color:#e2d9f3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:4px; }
+  .cover-meta { display:flex; flex-wrap:wrap; gap:4px 12px; font-size:11px; color:rgba(196,181,253,0.55); align-items:center; }
+  .cover-meta b { color:rgba(196,181,253,0.85); }
   .music-table-wrap {
     background: rgba(255,255,255,0.03); border: 1px solid rgba(139,92,246,0.2);
     border-radius: 16px; overflow: hidden;
@@ -873,7 +903,8 @@ export default function App() {
               ["members", "👥", "Thành Viên"],
               ["music",   "🎵", "Âm Nhạc"],
               ["comic",   "📖", "Truyện Tranh"],
-              ["gallery", "🖼️", "Gallery"],
+              ["artwork", "🎨", "Artwork"],
+              ["fanart",  "💜", "Fanart"],
             ].map(([id, icon, label]) => (
               <button key={id} className={`nav-btn${currentPage===id?" active":""}`} onClick={() => setCurrentPage(id)}>
                 {icon} {label}
@@ -897,7 +928,8 @@ export default function App() {
         {currentPage === "members" && <MembersPage data={data} />}
         {currentPage === "music" && <MusicPage data={data} />}
         {currentPage === "comic" && <ComicPage data={data} />}
-        {currentPage === "gallery" && <GalleryPage data={data} />}
+        {currentPage === "artwork" && <GalleryPage data={data} defaultTab="artwork" />}
+        {currentPage === "fanart"  && <GalleryPage data={data} defaultTab="fanart" />}
         {currentPage === "home" && <div className="hero">
           <div className="hero-stars" />
           <div className="hero-logo">
@@ -1466,7 +1498,7 @@ function OriginalTab({ releases }) {
 
 // ─── Music Page ────────────────────────────────────────────────────────────────
 const COVERS_2024 = [
-  { title:"Bản Ngã Trong Tôi", orig:"KAIBUTSU - YOASOBI", vocalist:"RED, BLUE, PURPLE, PINK", date:"Oct 30, 2024", link:"https://moonatics.fanlink.tv/BNTT" },
+  { title:"Bản Ngã Trong Tôi", orig:"KAIBUTSU - YOASOBI", lyricist:"midaoli", vocalist:"RED, BLUE, PURPLE, PINK", date:"Oct 30, 2024", link:"https://moonatics.fanlink.tv/BNTT" },
   { title:"Nàng Thỏ Mê Hoặc", orig:"Bunny Girl - AKASAKI", vocalist:"RED, PINK", date:"Nov 7, 2024", link:"https://moonatics.fanlink.tv/NTMH" },
   { title:"Giả Dối Chính là Tình Yêu", orig:"Mephisto - QUEEN BEE", vocalist:"RED, BLUE", date:"Nov 14, 2024", link:"https://moonatics.fanlink.tv/GDCLTY" },
   { title:"Dưới Tán Cây", orig:"UNDER THE TREE - SiM", vocalist:"RED, BLUE", date:"Nov 21, 2024", link:"https://moonatics.fanlink.tv/DuoiTanCay" },
@@ -1540,29 +1572,29 @@ const ALL_COVERS = [
 
 function MusicTable({ songs }) {
   return (
-    <div className="music-table-wrap">
-      <table className="music-table">
-        <thead>
-          <tr>
-            <th>#</th><th>Bài Hát</th><th>Bài Gốc</th><th>Vocalist</th><th>Ngày</th><th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {songs.map((s, i) => (
-            <tr key={i}>
-              <td style={{color:"rgba(196,181,253,0.4)",fontSize:11}}>{i+1}</td>
-              <td style={{fontWeight:700,color:"#e2d9f3"}}>
-                {s.year && <span style={{fontSize:9,background:"rgba(139,92,246,0.15)",border:"1px solid rgba(139,92,246,0.25)",borderRadius:4,padding:"1px 5px",marginRight:6,color:"rgba(196,181,253,0.6)"}}>{s.year}</span>}
-                {s.title}
-              </td>
-              <td style={{color:"rgba(196,181,253,0.6)",fontSize:11}}>{s.orig}</td>
-              <td>{s.vocalist.split(", ").map((v,j) => <span key={j} className="vocalist-tag">{v}</span>)}</td>
-              <td style={{color:"rgba(196,181,253,0.5)",fontSize:11,whiteSpace:"nowrap"}}>{s.date}</td>
-              <td>{s.link ? <a href={s.link} target="_blank" rel="noreferrer" className="music-link">▶ Nghe</a> : <span style={{color:"rgba(196,181,253,0.3)",fontSize:11}}>—</span>}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="cover-list">
+      {songs.map((s, i) => (
+        <div key={i} className="cover-card">
+          {/* Artwork / number */}
+          {s.artwork
+            ? <ZoomImg src={driveImg(s.artwork)} alt={s.title} style={{width:56,height:56,borderRadius:8,objectFit:"cover",display:"block",flexShrink:0}} />
+            : <div className="cover-art" style={{color:"rgba(196,181,253,0.3)",fontSize:11,textAlign:"center",lineHeight:1.2}}>{i+1}</div>
+          }
+          <div className="cover-info">
+            <div className="cover-title">
+              {s.year && <span style={{fontSize:9,background:"rgba(139,92,246,0.15)",border:"1px solid rgba(139,92,246,0.25)",borderRadius:4,padding:"1px 5px",marginRight:6,color:"rgba(196,181,253,0.55)"}}>{s.year}</span>}
+              {s.title}
+            </div>
+            <div className="cover-meta">
+              {s.orig && <span>🎵 <b>{s.orig}</b></span>}
+              {s.lyricist && <span>✍️ <b>{s.lyricist}</b></span>}
+              {s.vocalist && <span>🎤 {s.vocalist.split(", ").map((v,j) => <span key={j} className="vocalist-tag" style={{fontSize:10,padding:"1px 6px"}}>{v}</span>)}</span>}
+              {s.date && <span style={{marginLeft:"auto",color:"rgba(196,181,253,0.4)",fontSize:10,whiteSpace:"nowrap"}}>{s.date}</span>}
+            </div>
+            {s.link && <a href={s.link} target="_blank" rel="noreferrer" className="music-link" style={{marginTop:5,display:"inline-block",fontSize:11}}>▶ Nghe</a>}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -1700,16 +1732,14 @@ function DriveFolderGrid({ folderId, emptyMsg }) {
   );
 }
 
-function GalleryPage({ data }) {
+function GalleryPage({ data, defaultTab = "artwork" }) {
   const artworkFolderId = data?.artworkFolderId || import.meta.env.VITE_ARTWORK_FOLDER_ID || "";
   const fanartFolderId  = data?.fanartFolderId  || import.meta.env.VITE_FANART_FOLDER_ID || "";
+  const isArtwork = defaultTab === "artwork";
   return (
     <div className="inner-page">
-      <div className="page-title">🖼️ Gallery</div>
-      <div className="gallery-section-title">🎨 Moonatics's Artwork</div>
-      <DriveFolderGrid folderId={artworkFolderId} emptyMsg="Chưa có artwork." />
-      <div className="gallery-section-title">💜 Moonatics's Fanart</div>
-      <DriveFolderGrid folderId={fanartFolderId} emptyMsg="Chưa có fanart." />
+      <div className="page-title">{isArtwork ? "🎨 Artwork" : "💜 Fanart"}</div>
+      <DriveFolderGrid folderId={isArtwork ? artworkFolderId : fanartFolderId} emptyMsg={isArtwork ? "Chưa có artwork." : "Chưa có fanart."} />
     </div>
   );
 }
@@ -1955,8 +1985,12 @@ function MusicCMSTab({ data, onSave }) {
             </div>
             <Field label="Bài gốc" value={s.orig} onChange={v=>update(i,"orig",v)} />
             <div className="row2">
+              <Field label="Lyricist Chuyển Ngữ" value={s.lyricist||""} onChange={v=>update(i,"lyricist",v)} />
               <Field label="Vocalist" value={s.vocalist} onChange={v=>update(i,"vocalist",v)} />
+            </div>
+            <div className="row2">
               <Field label="Ngày" value={s.date} onChange={v=>update(i,"date",v)} />
+              <Field label="Artwork URL" value={s.artwork||""} onChange={v=>update(i,"artwork",v)} />
             </div>
             <Field label="Link" value={s.link} onChange={v=>update(i,"link",v)} />
             <button className="icon-btn" style={{color:"#f87171",marginTop:4}} onClick={()=>del(i)}><TrashIcon /> Xoá</button>
