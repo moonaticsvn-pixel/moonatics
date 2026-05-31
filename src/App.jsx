@@ -1282,7 +1282,14 @@ function MemberDetailCard({ m, memberImages }) {
         <ProfileSlider images={images} color={m.color} name={m.name} />
         <div style={{flex:1}}>
           <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4}}>
-            <span style={{fontSize:32,color:m.color,fontWeight:900,lineHeight:1,WebkitTextFillColor:m.color,filter:`drop-shadow(0 0 6px ${m.color}88)`}}>{m.icon}</span>
+            <span style={{fontSize:32,color:m.color,fontWeight:900,lineHeight:1,WebkitTextFillColor:m.color,filter:`drop-shadow(0 0 6px ${m.color}88)`}}>
+              {m.name === "Black Jack"
+                ? <svg viewBox="0 0 24 24" width="32" height="32" style={{display:"block",filter:"drop-shadow(0 0 6px rgba(180,180,255,0.7))"}}>
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#e8e8ff" stroke="rgba(200,200,255,0.5)" strokeWidth="0.3"/>
+                  </svg>
+                : m.icon
+              }
+            </span>
             <div>
               <div style={{fontWeight:800,fontSize:18,color:"#e2d9f3"}}>{m.name}</div>
               <div style={{fontSize:11,color:"rgba(196,181,253,0.5)"}}>aka {m.altName}</div>
