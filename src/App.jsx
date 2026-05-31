@@ -1978,6 +1978,27 @@ function ListsTab({ data, onSave }) {
 }
 
 // ─── Members CMS ──────────────────────────────────────────────────────────────
+// MemberRow must be defined OUTSIDE MembersCMSTab to prevent remount on every keystroke
+function MemberRow({arr, setArr, m, i, fields, onUpdate, onDel}) {
+  const updateField = (field, val) => onUpdate(i, field, val);
+  return (
+    <div style={{background:"rgba(139,92,246,0.08)",border:"1px solid rgba(139,92,246,0.2)",borderRadius:10,padding:12,marginBottom:10}}>
+      <div className="row2">
+        <Field label="Tên" value={m.name} onChange={v=>updateField("name",v)} />
+        <Field label="Alt Name" value={m.altName||""} onChange={v=>updateField("altName",v)} />
+      </div>
+      {fields?.includes("bio") && <Field label="Bio" value={m.bio||""} onChange={v=>updateField("bio",v)} textarea rows={2} />}
+      {fields?.includes("roles") && <Field label="Roles (phân cách bởi dấu phẩy)" value={(m.roles||[]).join(", ")} onChange={v=>updateField("roles",v.split(", "))} />}
+      {fields?.includes("desc") && <Field label="Mô tả ngắn" value={m.desc||""} onChange={v=>updateField("desc",v)} textarea rows={2} />}
+      {fields?.includes("joined") && <Field label="Ngày tham gia" value={m.joined||""} onChange={v=>updateField("joined",v)} />}
+      {fields?.includes("status") && <Field label="Status" value={m.status||""} onChange={v=>updateField("status",v)} />}
+      {fields?.includes("role") && <Field label="Vai trò" value={m.role||""} onChange={v=>updateField("role",v)} />}
+      {fields?.includes("since") && <Field label="Xuất hiện từ" value={m.since||""} onChange={v=>updateField("since",v)} />}
+      <button className="icon-btn" style={{color:"#f87171",marginTop:4}} onClick={()=>onDel(i)}><TrashIcon /> Xoá</button>
+    </div>
+  );
+}
+
 function MembersCMSTab({ data, onSave }) {
   const [section, setSection] = useState("active");
   const [members, setMembers] = useState((data.membersActive || MEMBERS_ACTIVE).map(m=>({...m})));
@@ -1989,23 +2010,6 @@ function MembersCMSTab({ data, onSave }) {
     setArr(arr.map((x,idx) => idx===i ? {...x,[field]:val} : x));
   const del = (arr, setArr, i) => setArr(arr.filter((_,idx) => idx!==i));
 
-  const MemberRow = ({arr, setArr, m, i, fields}) => (
-    <div style={{background:"rgba(139,92,246,0.08)",border:"1px solid rgba(139,92,246,0.2)",borderRadius:10,padding:12,marginBottom:10}}>
-      <div className="row2">
-        <Field label="Tên" value={m.name} onChange={v=>updateField(arr,setArr,i,"name",v)} />
-        <Field label="Alt Name" value={m.altName||""} onChange={v=>updateField(arr,setArr,i,"altName",v)} />
-      </div>
-      {fields?.includes("bio") && <Field label="Bio" value={m.bio||""} onChange={v=>updateField(arr,setArr,i,"bio",v)} textarea rows={2} />}
-      {fields?.includes("roles") && <Field label="Roles (phân cách bởi dấu phẩy)" value={(m.roles||[]).join(", ")} onChange={v=>updateField(arr,setArr,i,"roles",v.split(", "))} />}
-      {fields?.includes("desc") && <Field label="Mô tả ngắn" value={m.desc||""} onChange={v=>updateField(arr,setArr,i,"desc",v)} textarea rows={2} />}
-      {fields?.includes("joined") && <Field label="Ngày tham gia" value={m.joined||""} onChange={v=>updateField(arr,setArr,i,"joined",v)} />}
-      {fields?.includes("status") && <Field label="Status" value={m.status||""} onChange={v=>updateField(arr,setArr,i,"status",v)} />}
-      {fields?.includes("role") && <Field label="Vai trò" value={m.role||""} onChange={v=>updateField(arr,setArr,i,"role",v)} />}
-      {fields?.includes("since") && <Field label="Xuất hiện từ" value={m.since||""} onChange={v=>updateField(arr,setArr,i,"since",v)} />}
-      <button className="icon-btn" style={{color:"#f87171",marginTop:4}} onClick={()=>del(arr,setArr,i)}><TrashIcon /> Xoá</button>
-    </div>
-  );
-
   return (
     <>
       <div className="cms-tabs" style={{marginBottom:14}}>
@@ -2015,22 +2019,22 @@ function MembersCMSTab({ data, onSave }) {
       </div>
 
       {section==="active" && <>
-        {members.map((m,i)=><MemberRow key={i} arr={members} setArr={setMembers} m={m} i={i} fields={["bio","roles","joined","status"]} />)}
+        {members.map((m,i)=><MemberRow key={i} arr={members} setArr={setMembers} m={m} i={i} fields={["bio","roles","joined","status"]} onUpdate={(idx,f,v)=>updateField(members,setMembers,idx,f,v)} onDel={(idx)=>del(members,setMembers,idx)} />)}
         <button className="add-btn" onClick={()=>setMembers(p=>[...p,{name:"Thành viên mới",altName:"",bio:"",roles:[],joined:"",status:"Active",color:"#a78bfa",icon:"♦",images:[null]}])}><PlusIcon /> Thêm</button>
       </>}
 
       {section==="graduated" && <>
-        {graduated.map((m,i)=><MemberRow key={i} arr={graduated} setArr={setGraduated} m={m} i={i} fields={["bio","roles","joined","status"]} />)}
+        {graduated.map((m,i)=><MemberRow key={i} arr={graduated} setArr={setGraduated} m={m} i={i} fields={["bio","roles","joined","status"]} onUpdate={(idx,f,v)=>updateField(graduated,setGraduated,idx,f,v)} onDel={(idx)=>del(graduated,setGraduated,idx)} />)}
         <button className="add-btn" onClick={()=>setGraduated(p=>[...p,{name:"",altName:"",bio:"",roles:[],joined:"",status:"Inactive",color:"#ec4899",icon:"♥",images:[null]}])}><PlusIcon /> Thêm</button>
       </>}
 
       {section==="support" && <>
-        {support.map((m,i)=><MemberRow key={i} arr={support} setArr={setSupport} m={m} i={i} fields={["roles","desc"]} />)}
+        {support.map((m,i)=><MemberRow key={i} arr={support} setArr={setSupport} m={m} i={i} fields={["roles","desc"]} onUpdate={(idx,f,v)=>updateField(support,setSupport,idx,f,v)} onDel={(idx)=>del(support,setSupport,idx)} />)}
         <button className="add-btn" onClick={()=>setSupport(p=>[...p,{name:"",altName:"",emoji:"⭐",gender:"",star:"",vocal:"",color:"",roles:[],images:[null]}])}><PlusIcon /> Thêm</button>
       </>}
 
       {section==="guest" && <>
-        {guests.map((g,i)=><MemberRow key={i} arr={guests} setArr={setGuests} g={g} m={g} i={i} fields={["role","since"]} />)}
+        {guests.map((g,i)=><MemberRow key={i} arr={guests} setArr={setGuests} m={g} i={i} fields={["role","since"]} onUpdate={(idx,f,v)=>updateField(guests,setGuests,idx,f,v)} onDel={(idx)=>del(guests,setGuests,idx)} />)}
         <button className="add-btn" onClick={()=>setGuests(p=>[...p,{name:"",role:"",since:""}])}><PlusIcon /> Thêm</button>
       </>}
 
@@ -2148,10 +2152,10 @@ function MediaCMSTab({ data, onSave }) {
   const [memberTab, setMemberTab] = useState("Red Spade");
 
   const allMemberNames = [
-    ...MEMBERS_ACTIVE.map(m=>m.name),
-    ...MEMBERS_GRADUATED.map(m=>m.name),
-    ...MEMBERS_SUPPORT.map(m=>m.name),
-    ...MEMBERS_GUEST.map(m=>m.name),
+    ...(data.membersActive || MEMBERS_ACTIVE).map(m=>m.name),
+    ...(data.membersGraduated || MEMBERS_GRADUATED).map(m=>m.name),
+    ...(data.membersSupport || MEMBERS_SUPPORT).map(m=>m.name),
+    ...(data.membersGuest || MEMBERS_GUEST).map(m=>m.name),
   ];
 
   const updateMemberImg = (name, i, val) => {
