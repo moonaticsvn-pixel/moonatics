@@ -1583,13 +1583,35 @@ const ALL_COVERS = [
 ];
 // ALL_COVERS is mutable — CMS can splice in new songs at the front
 
+function LyricsModal({ song, onClose }) {
+  useEffect(() => {
+    const handler = e => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+  return (
+    <div onClick={onClose} style={{position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.85)",display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(6px)",padding:"20px"}}>
+      <div onClick={e=>e.stopPropagation()} style={{background:"#1a0f2e",border:"1px solid rgba(139,92,246,0.35)",borderRadius:18,padding:"28px 30px",maxWidth:540,width:"100%",maxHeight:"80vh",overflowY:"auto",position:"relative"}}>
+        <button onClick={onClose} style={{position:"absolute",top:14,right:18,background:"none",border:"none",color:"rgba(196,181,253,0.5)",fontSize:22,cursor:"pointer",lineHeight:1}}>✕</button>
+        <div style={{fontSize:16,fontWeight:800,color:"#e2d9f3",marginBottom:4}}>{song.title}</div>
+        <div style={{fontSize:11,color:"rgba(196,181,253,0.45)",marginBottom:16}}>✍️ {song.lyricist || "—"} &nbsp;|&nbsp; 🎵 {song.orig}</div>
+        <div style={{fontSize:13,color:"rgba(220,210,255,0.85)",lineHeight:2.1,whiteSpace:"pre-wrap",fontFamily:"Be Vietnam Pro, sans-serif"}}>
+          {song.lyrics || "(Chưa có lyrics)"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MusicTable({ songs }) {
   const PER_PAGE = 50;
   const [page, setPage] = useState(0);
+  const [lyricsFor, setLyricsFor] = useState(null);
   const totalPages = Math.ceil(songs.length / PER_PAGE);
   const pageSongs = songs.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
   return (
     <>
+    {lyricsFor && <LyricsModal song={lyricsFor} onClose={() => setLyricsFor(null)} />}
     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12,fontSize:12,color:"rgba(196,181,253,0.55)"}}>
       <span>{songs.length} bài • Trang {page+1}/{totalPages}</span>
       <div style={{display:"flex",gap:6}}>
@@ -1604,7 +1626,7 @@ function MusicTable({ songs }) {
           {/* Artwork / number */}
           {s.artwork
             ? <ZoomImg src={driveImg(s.artwork)} alt={s.title} style={{width:56,height:56,borderRadius:8,objectFit:"cover",display:"block",flexShrink:0}} />
-            : <div className="cover-art" style={{color:"rgba(196,181,253,0.3)",fontSize:11,textAlign:"center",lineHeight:1.2}}>{i+1}</div>
+            : <div className="cover-art" style={{color:"rgba(196,181,253,0.3)",fontSize:11,textAlign:"center",lineHeight:1.2}}>{page * PER_PAGE + i + 1}</div>
           }
           <div className="cover-info">
             <div className="cover-title">
@@ -1617,7 +1639,20 @@ function MusicTable({ songs }) {
               {s.vocalist && <span>🎤 {s.vocalist.split(", ").map((v,j) => <span key={j} className="vocalist-tag" style={{fontSize:10,padding:"1px 6px"}}>{v}</span>)}</span>}
               {s.date && <span style={{marginLeft:"auto",color:"rgba(196,181,253,0.4)",fontSize:10,whiteSpace:"nowrap"}}>{s.date}</span>}
             </div>
-            {s.link && <a href={s.link} target="_blank" rel="noreferrer" className="music-link" style={{marginTop:5,display:"inline-block",fontSize:11}}>▶ Nghe</a>}
+            <div style={{display:"flex",gap:6,marginTop:6,flexWrap:"wrap"}}>
+              {s.link && <a href={s.link} target="_blank" rel="noreferrer" className="music-link" style={{fontSize:11}}>▶ Nghe</a>}
+              {s.ytLink && (
+                <a href={s.ytLink} target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:4,background:"rgba(255,0,0,0.15)",border:"1px solid rgba(255,80,80,0.3)",color:"#ff8080",padding:"2px 8px",borderRadius:6,fontSize:11,fontWeight:600,textDecoration:"none"}}>
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+                  YouTube
+                </a>
+              )}
+              {s.lyrics && (
+                <button onClick={() => setLyricsFor(s)} style={{display:"inline-flex",alignItems:"center",gap:4,background:"rgba(139,92,246,0.15)",border:"1px solid rgba(139,92,246,0.3)",color:"#a78bfa",padding:"2px 8px",borderRadius:6,fontSize:11,fontWeight:600,cursor:"pointer"}}>
+                  📝 Lyrics
+                </button>
+              )}
+            </div>
           </div>
         </div>
       ))}
@@ -2009,7 +2044,7 @@ function MusicCMSTab({ data, onSave }) {
   const [songs, setSongs] = useState(ALL_COVERS.map(s=>({...s})));
   const update = (i,field,val) => setSongs(songs.map((x,idx)=>idx===i?{...x,[field]:val}:x));
   const del = (i) => setSongs(songs.filter((_,idx)=>idx!==i));
-  const add = () => setSongs(p=>[{title:"",orig:"",lyricist:"",vocalist:"",date:"",link:"",artwork:"",year:"2025"}, ...p]);
+  const add = () => setSongs(p=>[{title:"",orig:"",lyricist:"",vocalist:"",date:"",link:"",ytLink:"",lyrics:"",artwork:"",year:"2025"}, ...p]);
 
   return (
     <>
@@ -2030,7 +2065,9 @@ function MusicCMSTab({ data, onSave }) {
               <Field label="Ngày" value={s.date} onChange={v=>update(i,"date",v)} />
               <Field label="Artwork URL" value={s.artwork||""} onChange={v=>update(i,"artwork",v)} />
             </div>
-            <Field label="Link" value={s.link} onChange={v=>update(i,"link",v)} />
+            <Field label="Link Nghe (fanlink/spotify/...)" value={s.link} onChange={v=>update(i,"link",v)} />
+            <Field label="▶ YouTube URL" value={s.ytLink||""} onChange={v=>update(i,"ytLink",v)} />
+            <Field label="📝 Lyrics (xuống dòng = xuống dòng)" value={s.lyrics||""} onChange={v=>update(i,"lyrics",v)} textarea rows={5} />
             <button className="icon-btn" style={{color:"#f87171",marginTop:4}} onClick={()=>del(i)}><TrashIcon /> Xoá</button>
           </div>
         ))}
