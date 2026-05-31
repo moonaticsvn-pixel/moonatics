@@ -1375,7 +1375,6 @@ function MembersPage({ data }) {
                 <div className="supportee-meta-row"><span>⚧ Giới tính</span><span style={{color:"#e2d9f3"}}>{m.gender}</span></div>
                 <div className="supportee-meta-row"><span>⭐ Chòm sao</span><span style={{color:"#e2d9f3"}}>{m.star}</span></div>
                 <div className="supportee-meta-row"><span>🎙️ Vocal Range</span><span style={{color:"#e2d9f3"}}>{m.vocal}</span></div>
-                <div className="supportee-meta-row"><span>🎨 Màu sắc</span><span style={{color:"#e2d9f3"}}>{m.color}</span></div>
               </div>
             </div>
           ))}
