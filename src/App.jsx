@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 const MOONATICS_LOGO = null;
 
 const STORAGE_KEY = "nuoitoi-cms-data";
-const ADMIN_PASSWORD = "joker2018";
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "";
 
 // Convert Google Drive share/view URLs to direct image URLs
 function driveImg(url) {
@@ -59,7 +59,7 @@ const defaultData = {
     "Số liệu chính xác đến từng đồng",
     "Trả lời inbox nhanh hơn cả chatbot",
   ],
-  donateLink: "https://wescan.vn/moonaticsvn",
+  donateLink: import.meta.env.VITE_DONATE_LINK || "",
   budgetItems: [
     { pct: "40%", desc: "Ăn uống (Cơm, mì tôm, trứng, rau. KHÔNG có tôm hùm!)" },
     { pct: "20%", desc: "Điện nước internet (Để sao kê cho anh chị)" },
@@ -71,9 +71,9 @@ const defaultData = {
   youtubeId: "dQw4w9WgXcQ",
   heartMessage: 'Trong thời đại mà "từ thiện" đã trở thành từ nhạy cảm, Tôi xin khẳng định: HÃY NUÔI TÔI!\n\nTôi nghèo, tôi cần tiền, nhưng tôi KHÔNG MẤT LƯƠNG TÂM! Mỗi đồng tiền các bạn gửi, tôi sẽ chi tiêu rõ ràng, minh bạch như bụng đói của tôi vậy! 🫃\n\nP/S: Tôi hứa sẽ không mua xe hơi bằng tiền donate. Vì... tôi chưa có bằng lái! 🚗❌',
   disclaimer: 'DISCLAIMER: Đây là trang web mang tính chất HÀI HƯỚC Mọi nội dung đều mang tính giải trí, không nhằm mục đích xúc phạm hay chỉ trích bất kỳ cá nhân/tổ chức nào.',
-  comicFolderId: "1lkHGRf2-XkxnJF6yQ215WpcK5mGmSjmM",
-  artworkFolderId: "1zhJ3FjjCyuUTsTJ-VQyYdFOr2FAYQx3b",
-  fanartFolderId: "1vxpJm68ToxMyJAC2SZ_P3klMw6nY9Lxp",
+  comicFolderId: import.meta.env.VITE_COMIC_FOLDER_ID || "",
+  artworkFolderId: import.meta.env.VITE_ARTWORK_FOLDER_ID || "",
+  fanartFolderId: import.meta.env.VITE_FANART_FOLDER_ID || "",
   comicUrls: [],
   artworkUrls: [],
   fanartUrls: [],
@@ -1640,7 +1640,7 @@ async function fetchDriveFolder(folderId) {
 }
 
 function ComicPage({ data }) {
-  const folderId = data?.comicFolderId || "1lkHGRf2-XkxnJF6yQ215WpcK5mGmSjmM";
+  const folderId = data?.comicFolderId || import.meta.env.VITE_COMIC_FOLDER_ID || "";
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -1701,8 +1701,8 @@ function DriveFolderGrid({ folderId, emptyMsg }) {
 }
 
 function GalleryPage({ data }) {
-  const artworkFolderId = data?.artworkFolderId || "1zhJ3FjjCyuUTsTJ-VQyYdFOr2FAYQx3b";
-  const fanartFolderId  = data?.fanartFolderId  || "1vxpJm68ToxMyJAC2SZ_P3klMw6nY9Lxp";
+  const artworkFolderId = data?.artworkFolderId || import.meta.env.VITE_ARTWORK_FOLDER_ID || "";
+  const fanartFolderId  = data?.fanartFolderId  || import.meta.env.VITE_FANART_FOLDER_ID || "";
   return (
     <div className="inner-page">
       <div className="page-title">🖼️ Gallery</div>
@@ -2029,9 +2029,9 @@ function OriginalCMSTab({ data, onSave }) {
 
 // ─── Media CMS ────────────────────────────────────────────────────────────────
 function MediaCMSTab({ data, onSave }) {
-  const [comicFolderId, setComicFolderId] = useState(data.comicFolderId || "1lkHGRf2-XkxnJF6yQ215WpcK5mGmSjmM");
-  const [artworkFolderId, setArtworkFolderId] = useState(data.artworkFolderId || "1zhJ3FjjCyuUTsTJ-VQyYdFOr2FAYQx3b");
-  const [fanartFolderId, setFanartFolderId] = useState(data.fanartFolderId || "1vxpJm68ToxMyJAC2SZ_P3klMw6nY9Lxp");
+  const [comicFolderId, setComicFolderId] = useState(data.comicFolderId || import.meta.env.VITE_COMIC_FOLDER_ID || "");
+  const [artworkFolderId, setArtworkFolderId] = useState(data.artworkFolderId || import.meta.env.VITE_ARTWORK_FOLDER_ID || "");
+  const [fanartFolderId, setFanartFolderId] = useState(data.fanartFolderId || import.meta.env.VITE_FANART_FOLDER_ID || "");
   const [memberImages, setMemberImages] = useState(
     data.memberImages ? JSON.parse(JSON.stringify(data.memberImages)) : {}
   );
@@ -2089,15 +2089,15 @@ function MediaCMSTab({ data, onSave }) {
       </div>
       <Field label="📖 Truyện Tranh — Folder ID" value={comicFolderId} onChange={setComicFolderId} />
       <div style={{fontSize:10,color:"rgba(196,181,253,0.35)",marginTop:-8,marginBottom:12}}>
-        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>1lkHGRf2-XkxnJF6yQ215WpcK5mGmSjmM</b>
+        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>FOLDER_ID</b>
       </div>
       <Field label="🎨 Artwork — Folder ID" value={artworkFolderId} onChange={setArtworkFolderId} />
       <div style={{fontSize:10,color:"rgba(196,181,253,0.35)",marginTop:-8,marginBottom:12}}>
-        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>1zhJ3FjjCyuUTsTJ-VQyYdFOr2FAYQx3b</b>
+        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>FOLDER_ID</b>
       </div>
       <Field label="💜 Fanart — Folder ID" value={fanartFolderId} onChange={setFanartFolderId} />
       <div style={{fontSize:10,color:"rgba(196,181,253,0.35)",marginTop:-8,marginBottom:16}}>
-        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>1vxpJm68ToxMyJAC2SZ_P3klMw6nY9Lxp</b>
+        VD: https://drive.google.com/drive/folders/<b style={{color:"#a78bfa"}}>FOLDER_ID</b>
       </div>
 
       <button className="save-btn" onClick={()=>onSave({...data,comicFolderId,artworkFolderId,fanartFolderId,memberImages})}><SaveIcon /> Lưu tất cả</button>
