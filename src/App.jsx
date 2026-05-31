@@ -1499,81 +1499,95 @@ function OriginalTab({ releases }) {
 // ─── Music Page ────────────────────────────────────────────────────────────────
 const COVERS_2024 = [
   { title:"Bản Ngã Trong Tôi", orig:"KAIBUTSU - YOASOBI", lyricist:"midaoli", vocalist:"RED, BLUE, PURPLE, PINK", date:"Oct 30, 2024", link:"https://moonatics.fanlink.tv/BNTT" },
-  { title:"Nàng Thỏ Mê Hoặc", orig:"Bunny Girl - AKASAKI", vocalist:"RED, PINK", date:"Nov 7, 2024", link:"https://moonatics.fanlink.tv/NTMH" },
-  { title:"Giả Dối Chính là Tình Yêu", orig:"Mephisto - QUEEN BEE", vocalist:"RED, BLUE", date:"Nov 14, 2024", link:"https://moonatics.fanlink.tv/GDCLTY" },
-  { title:"Dưới Tán Cây", orig:"UNDER THE TREE - SiM", vocalist:"RED, BLUE", date:"Nov 21, 2024", link:"https://moonatics.fanlink.tv/DuoiTanCay" },
-  { title:"Điệu Nhảy Trong Đêm", orig:"Night Dancer - imase", vocalist:"PINK", date:"Nov 28, 2024", link:"https://moonatics.fanlink.tv/DNTD" },
-  { title:"Nhà Tập Thể", orig:"APT - Rosé, Bruno Mars", vocalist:"RED, BLUE, SILVER", date:"Dec 8, 2024", link:"https://moonatics.fanlink.tv/NhaTapThe" },
-  { title:"Chạy Vào Màn Đêm", orig:"Yoruni Kakeru - YOASOBI", vocalist:"BLUE", date:"Dec 15, 2024", link:"https://moonatics.fanlink.tv/CVMD" },
-  { title:"Ngôi Sao Dối Trá", orig:"IDOL - YOASOBI", vocalist:"PINK", date:"Dec 21, 2024", link:"https://moonatics.fanlink.tv/NSDT" },
-  { title:"Chắc Vậy", orig:"Tabun - YOASOBI", vocalist:"PINK", date:"Dec 26, 2024", link:"https://moonatics.fanlink.tv/ChacVay" },
+  { title:"Nàng Thỏ Mê Hoặc", orig:"Bunny Girl - AKASAKI", lyricist:"midaoli", vocalist:"RED, PINK", date:"Nov 7, 2024", link:"https://moonatics.fanlink.tv/NTMH" },
+  { title:"Giả Dối Chính là Tình Yêu", orig:"Mephisto - QUEEN BEE", lyricist:"midaoli", vocalist:"RED, BLUE", date:"Nov 14, 2024", link:"https://moonatics.fanlink.tv/GDCLTY" },
+  { title:"Dưới Tán Cây", orig:"UNDER THE TREE - SiM", lyricist:"midaoli", vocalist:"RED, BLUE", date:"Nov 21, 2024", link:"https://moonatics.fanlink.tv/DuoiTanCay" },
+  { title:"Điệu Nhảy Trong Đêm", orig:"Night Dancer - imase", lyricist:"midaoli", vocalist:"PINK", date:"Nov 28, 2024", link:"https://moonatics.fanlink.tv/DNTD" },
+  { title:"Nhà Tập Thể", orig:"APT - Rosé, Bruno Mars", lyricist:"RED, WHITE", vocalist:"RED, BLUE, SILVER", date:"Dec 8, 2024", link:"https://moonatics.fanlink.tv/NhaTapThe" },
+  { title:"Chạy Vào Màn Đêm", orig:"Yoruni Kakeru - YOASOBI", lyricist:"midaoli", vocalist:"BLUE", date:"Dec 15, 2024", link:"https://moonatics.fanlink.tv/CVMD" },
+  { title:"Ngôi Sao Dối Trá", orig:"IDOL - YOASOBI", lyricist:"midaoli (verse 1, chorus 1), RED, PINK", vocalist:"PINK", date:"Dec 21, 2024", link:"https://moonatics.fanlink.tv/NSDT" },
+  { title:"Chắc Vậy", orig:"Tabun - YOASOBI", lyricist:"midaoli, PINK (minor fix)", vocalist:"PINK", date:"Dec 26, 2024", link:"https://moonatics.fanlink.tv/ChacVay" },
 ];
 
 const COVERS_2025 = [
-  { title:"Ngôi Sao Ấy Chắc Vẫn Vậy", orig:"Comet, Tabun - Yoasobi", vocalist:"PINK", date:"Jan 2, 2025", link:"https://moonatics.fanlink.tv/NSACVV" },
-  { title:"GIẢI", orig:"Unravel - TK from 凛として時雨", vocalist:"RED, BLUE", date:"Jan 9, 2025", link:"https://moonatics.fanlink.tv/Giai" },
-  { title:"Sủa Vãi Mèo", orig:"Usseewa - Ado", vocalist:"PINK", date:"Jan 16, 2025", link:"https://moonatics.fanlink.tv/SuaVaiMeo" },
-  { title:"Ngôi Sao Dịu Êm", orig:"Comet - Yoasobi", vocalist:"PINK", date:"Jan 23, 2025", link:"https://moonatics.fanlink.tv/NSDE" },
-  { title:"Thời Đại Mới", orig:"NEW GENESIS - Ado", vocalist:"PURPLE", date:"Jan 30, 2025", link:"https://moonatics.fanlink.tv/ThoiDaiMoi" },
-  { title:"Cánh Bướm", orig:"Butterfly - Wada Kouji", vocalist:"RED", date:"Feb 6, 2025", link:"https://moonatics.fanlink.tv/CanhBuom" },
-  { title:"Sao Bắc Cực", orig:"Polaris - BLUE ENCOUNTER", vocalist:"RED", date:"Feb 13, 2025", link:"https://moonatics.fanlink.tv/SaoBacCuc" },
-  { title:"Lam Điểu", orig:"Blue Bird - Ikimonogakari", vocalist:"PINK", date:"Feb 18, 2025", link:"https://moonatics.fanlink.tv/LamDieu" },
-  { title:"Hắc Ảnh", orig:"Silhouette - KANA-BOON", vocalist:"PINK, RED, BLUE", date:"Feb 23, 2025", link:"https://moonatics.fanlink.tv/HacAnh" },
-  { title:"Lọ Lem & Hoàng Tử", orig:"Cendrillon - Hatsune Miku x KAITO", vocalist:"PURPLE, RED", date:"Mar 5, 2025", link:"https://moonatics.fanlink.tv/LLVHT" },
-  { title:"Điệu Nhảy Quá Liều Trong Đêm", orig:"Night Dancer, Overdose", vocalist:"RED, BLUE", date:"Mar 10, 2025", link:"https://moonatics.fanlink.tv/DNQLTD" },
-  { title:"Siêu Nhân Cuồng Phong, Tham Chiến!", orig:"Hurricaneger Sanjou!", vocalist:"RED, PURPLE, YELLOW", date:"Mar 15, 2025", link:"https://moonatics.fanlink.tv/SNCPTC" },
-  { title:"Đẹp xinh thay phần bạn mình xin lỗi", orig:"Kawaikute Gomen", vocalist:"SILVER", date:"Mar 20, 2025", link:"https://moonatics.fanlink.tv/DXTPBMXL" },
-  { title:"Lộng Ngôn", orig:"ITTE - Yorushika", vocalist:"BLUE", date:"Mar 25, 2025", link:"https://moonatics.fanlink.tv/LongNgon" },
-  { title:"Tình Đầu", orig:"First Love - Utada Hikaru", vocalist:"Fuongemyeu", date:"Mar 30, 2025", link:"https://moonatics.fanlink.tv/TinhDau" },
-  { title:"LAM", orig:"BLUE - BIG BANG", vocalist:"RED", date:"Apr 4, 2025", link:"https://moonatics.fanlink.tv/Lam" },
-  { title:"Phúc Lành", orig:"The Blessing - Yoasobi", vocalist:"PURPLE", date:"Apr 9, 2025", link:"https://moonatics.fanlink.tv/PhucLanh" },
-  { title:"Mộng Ảo Thiên Mã", orig:"Pegasus Fantasy - MAKE-UP", vocalist:"RED", date:"Apr 14, 2025", link:"https://moonatics.fanlink.tv/MATM" },
-  { title:"Vũ Công", orig:"odoriko - Vaundy", vocalist:"SILVER", date:"Apr 19, 2025", link:"https://moonatics.fanlink.tv/VuCong" },
-  { title:"Khi cuộc đời cho bạn màu cam", orig:"Orange - 7!!", vocalist:"BLUE", date:"Apr 24, 2025", link:"https://moonatics.fanlink.tv/KCDCBMC" },
-  { title:"Hạ Không", orig:"Summertime - Cinnamons x Evening Cinema", vocalist:"SILVER, BLUE", date:"May 4, 2025", link:"https://moonatics.fanlink.tv/HaKhong" },
-  { title:"Thần Tình Yêu Ngâu Vãi Mèo", orig:"CUPID - FIFTY FIFTY", vocalist:"SILVER", date:"May 9, 2025", link:"https://moonatics.fanlink.tv/TTYNVM" },
-  { title:"Lỡ Cưới Phải Lo", orig:"Tháp Rơi Tự Do - LBI利比", vocalist:"RED, Fuongemyeu", date:"May 10, 2025", link:"https://moonatics.fanlink.tv/LCPL" },
-  { title:"Tàn Dư", orig:"Haruna Kanata - ASIAN KUNG-FU GENERATION", vocalist:"BLUE", date:"May 14, 2025", link:"https://moonatics.fanlink.tv/TanDu" },
-  { title:"Luận Điểm Của Thiên Sứ Tàn Khóc", orig:"A Cruel Angel's Thesis", vocalist:"SILVER", date:"May 16, 2025", link:"https://moonatics.fanlink.tv/LDCTSTK" },
-  { title:"Dấu Hiệu", orig:"SIGN - FLOW", vocalist:"RED", date:"May 21, 2025", link:"https://moonatics.fanlink.tv/DH" },
-  { title:"Khúc Bing Chling Ca Lỉnh Chi", orig:"Ai♡Scream! - AiScReam", vocalist:"SILVER", date:"May 26, 2025", link:"https://moonatics.fanlink.tv/KBCLC" },
-  { title:"Nhát Súng Định Mệnh", orig:"Only My Railgun - Fripside", vocalist:"PURPLE, GOLDEN", date:"May 31, 2025", link:"https://moonatics.fanlink.tv/NSDM" },
-  { title:"Anh Hùng", orig:"Yuusha - YOASOBI", vocalist:"SILVER", date:"Jun 5, 2025", link:"https://moonatics.fanlink.tv/AnhHung" },
-  { title:"Khát Vọng", orig:"Hollow Hunger - OxT", vocalist:"BLUE", date:"Jun 10, 2025", link:"https://moonatics.fanlink.tv/KhatVong" },
-  { title:"Em Muốn Hấp Anh", orig:"Love Trap Muchuu - MAISONdes", vocalist:"SILVER", date:"Jun 15, 2025", link:"https://moonatics.fanlink.tv/EMHA" },
-  { title:"Táo Hỏng", orig:"BAD APPLE - TOUHOU", vocalist:"VânVân", date:"Jun 27, 2025", link:"https://moonatics.fanlink.tv/TH" },
-  { title:"Bling Bang Bang Born", orig:"Bling Bang Bang Born - Creepy Nuts", vocalist:"BLUE", date:"Jul 4, 2025", link:"https://moonatics.fanlink.tv/BBBB" },
-  { title:"Vũ Điệu", orig:"Odo - Ado", vocalist:"SILVER", date:"Jul 11, 2025", link:"https://moonatics.fanlink.tv/vudieu" },
-  { title:"Dương", orig:"Blue - Yungkai", vocalist:"RED", date:"Jul 18, 2025", link:"https://moonatics.fanlink.tv/Duong" },
-  { title:"Đứa Trẻ Đố Kỵ", orig:"Envybaby - Kanaria", vocalist:"KitakaraTome", date:"Jul 25, 2025", link:"https://moonatics.fanlink.tv/DTDK" },
-  { title:"VUA", orig:"KING - Kanaria", vocalist:"Remind", date:"Aug 1, 2025", link:"https://moonatics.fanlink.tv/VUA" },
-  { title:"Kẻ Say Khờ", orig:"Yoidore Shirazu - Kanaria", vocalist:"BLUE", date:"Aug 8, 2025", link:"https://moonatics.fanlink.tv/KeSayKho" },
-  { title:"Nữ Hoàng", orig:"QUEEN - Kanaria", vocalist:"PURPLE", date:"Aug 8, 2025", link:"https://moonatics.fanlink.tv/nuhoang" },
-  { title:"Ma Vương", orig:"Demon Lord - Kanaria", vocalist:"PINK", date:"Aug 8, 2025", link:"https://moonatics.fanlink.tv/mavuong" },
-  { title:"Mắt Dưới", orig:"EYE - Kanaria", vocalist:"SILVER", date:"Aug 8, 2025", link:"https://moonatics.fanlink.tv/MatDuoi" },
-  { title:"Thế Giới Của Em", orig:"World is mine - Hatsune Miku", vocalist:"PINK", date:"Aug 15, 2025", link:"https://moonatics.fanlink.tv/TGCE" },
-  { title:"Chanh", orig:"Lemon - Kenshi Yonezu", vocalist:"RED", date:"Aug 22, 2025", link:"https://moonatics.fanlink.tv/chanh" },
-  { title:"Chiến Đội Quyền Thú GekiRanger", orig:"Gekiranger OP", vocalist:"BLUE", date:"Aug 29, 2025", link:"https://moonatics.fanlink.tv/ChienDoiQuyenThu" },
-  { title:"Tầm nhìn", orig:"Vision - Kamen Rider Zetz", vocalist:"PINK", date:"Sep 7, 2025", link:"https://moonatics.fanlink.tv/TamNhin" },
-  { title:"Vòng Lặp Tình Yêu", orig:"Renai Circulation - Kana Hanazawa", vocalist:"SILVER", date:"Sep 12, 2025", link:"https://moonatics.fanlink.tv/VongLapTinhYeu" },
-  { title:"Tán Anh Đào", orig:"SAKURA - IKIMONOGAKARI", vocalist:"PINK", date:"Sep 19, 2025", link:"https://moonatics.fanlink.tv/TanAnhDao" },
-  { title:"Hành Trình Đột Xuất", orig:"SURPRISE DRIVE - Kamen Rider Drive", vocalist:"RED", date:"Sep 26, 2025", link:"https://moonatics.fanlink.tv/HanhTrinhDotXuat" },
-  { title:"IRIS OUT", orig:"IRIS OUT - Chainsaw Man", vocalist:"BLUE", date:"Oct 3, 2025", link:"" },
-  { title:"Giả Tạo", orig:"Phony - Kafu", vocalist:"SILVER", date:"Oct 10, 2025", link:"" },
-  { title:"Điên lên nào nhóc", orig:"KYORAN HEY KIDS - THE ORAL CIGARETTES", vocalist:"BLUE", date:"Oct 17, 2025", link:"" },
-  { title:"JANE DOE", orig:"JANE DOE - Chainsaw Man", vocalist:"SILVER, BLUE", date:"Oct 24, 2025", link:"" },
-  { title:"Mãi Bên Tôi", orig:"Itsumo Nando Demo - Spirited Away", vocalist:"PINK", date:"Oct 31, 2025", link:"" },
+  { title:"Ngôi Sao Ấy Chắc Vẫn Vậy", orig:"Comet, Tabun - Yoasobi", lyricist:"midaoli, RED (mashup arrange)", vocalist:"PINK", date:"Jan 2, 2025", link:"https://moonatics.fanlink.tv/NSACVV" },
+  { title:"GIẢI", lyricist:"midaoli", orig:"Unravel - TK from 凛として時雨", vocalist:"RED, BLUE", date:"Jan 9, 2025", link:"https://moonatics.fanlink.tv/Giai" },
+  { title:"Sủa Vãi Mèo", lyricist:"RED, PINK", orig:"Usseewa - Ado", vocalist:"PINK", date:"Jan 16, 2025", link:"https://moonatics.fanlink.tv/SuaVaiMeo" },
+  { title:"Ngôi Sao Dịu Êm", lyricist:"midaoli", orig:"Comet - Yoasobi", vocalist:"PINK", date:"Jan 23, 2025", link:"https://moonatics.fanlink.tv/NSDE" },
+  { title:"Thời Đại Mới", lyricist:"midaoli", orig:"NEW GENESIS - Ado", vocalist:"PURPLE", date:"Jan 30, 2025", link:"https://moonatics.fanlink.tv/ThoiDaiMoi" },
+  { title:"Cánh Bướm", lyricist:"midaoli, RED (minor fix)", orig:"Butterfly - Wada Kouji", vocalist:"RED", date:"Feb 6, 2025", link:"https://moonatics.fanlink.tv/CanhBuom" },
+  { title:"Sao Bắc Cực", lyricist:"RED", orig:"Polaris - BLUE ENCOUNTER", vocalist:"RED", date:"Feb 13, 2025", link:"https://moonatics.fanlink.tv/SaoBacCuc" },
+  { title:"Lam Điểu", lyricist:"RED, PINK", orig:"Blue Bird - Ikimonogakari", vocalist:"PINK", date:"Feb 18, 2025", link:"https://moonatics.fanlink.tv/LamDieu" },
+  { title:"Hắc Ảnh", lyricist:"RED, PINK", orig:"Silhouette - KANA-BOON", vocalist:"PINK, RED, BLUE", date:"Feb 23, 2025", link:"https://moonatics.fanlink.tv/HacAnh" },
+  { title:"Lọ Lem & Hoàng Tử", lyricist:"midaoli", orig:"Cendrillon - Hatsune Miku x KAITO", vocalist:"PURPLE, RED", date:"Mar 5, 2025", link:"https://moonatics.fanlink.tv/LLVHT" },
+  { title:"Điệu Nhảy Quá Liều Trong Đêm", lyricist:"midaoli, RED (mashup arrange)", orig:"Night Dancer, Overdose", vocalist:"RED, BLUE", date:"Mar 10, 2025", link:"https://moonatics.fanlink.tv/DNQLTD" },
+  { title:"Siêu Nhân Cuồng Phong, Tham Chiến!", lyricist:"midaoli", orig:"Hurricaneger Sanjou!", vocalist:"RED, PURPLE, YELLOW", date:"Mar 15, 2025", link:"https://moonatics.fanlink.tv/SNCPTC" },
+  { title:"Đẹp xinh thay phần bạn mình xin lỗi", lyricist:"Moonatics", orig:"Kawaikute Gomen", vocalist:"SILVER", date:"Mar 20, 2025", link:"https://moonatics.fanlink.tv/DXTPBMXL" },
+  { title:"Lộng Ngôn", lyricist:"RED, BLUE (minor fix)", orig:"ITTE - Yorushika", vocalist:"BLUE", date:"Mar 25, 2025", link:"https://moonatics.fanlink.tv/LongNgon" },
+  { title:"Tình Đầu", lyricist:"RED", orig:"First Love - Utada Hikaru", vocalist:"Fuongemyeu", date:"Mar 30, 2025", link:"https://moonatics.fanlink.tv/TinhDau" },
+  { title:"LAM", lyricist:"Moonatics", orig:"BLUE - BIG BANG", vocalist:"RED", date:"Apr 4, 2025", link:"https://moonatics.fanlink.tv/Lam" },
+  { title:"Phúc Lành", lyricist:"midaoli", orig:"The Blessing - Yoasobi", vocalist:"PURPLE", date:"Apr 9, 2025", link:"https://moonatics.fanlink.tv/PhucLanh" },
+  { title:"Mộng Ảo Thiên Mã", lyricist:"RED", orig:"Pegasus Fantasy - MAKE-UP", vocalist:"RED", date:"Apr 14, 2025", link:"https://moonatics.fanlink.tv/MATM" },
+  { title:"Vũ Công", lyricist:"SILVER", orig:"odoriko - Vaundy", vocalist:"SILVER", date:"Apr 19, 2025", link:"https://moonatics.fanlink.tv/VuCong" },
+  { title:"Khi cuộc đời cho bạn màu cam", lyricist:"RED, BLUE", orig:"Orange - 7!!", vocalist:"BLUE", date:"Apr 24, 2025", link:"https://moonatics.fanlink.tv/KCDCBMC" },
+  { title:"Hạ Không", lyricist:"RED, BLUE", orig:"Summertime - Cinnamons x Evening Cinema", vocalist:"SILVER, BLUE", date:"May 4, 2025", link:"https://moonatics.fanlink.tv/HaKhong" },
+  { title:"Thần Tình Yêu Ngâu Vãi Mèo", lyricist:"SILVER", orig:"CUPID - FIFTY FIFTY", vocalist:"SILVER", date:"May 9, 2025", link:"https://moonatics.fanlink.tv/TTYNVM" },
+  { title:"Lỡ Cưới Phải Lo", lyricist:"RED", orig:"Tháp Rơi Tự Do - LBI利比", vocalist:"RED, Fuongemyeu", date:"May 10, 2025", link:"https://moonatics.fanlink.tv/LCPL" },
+  { title:"Tàn Dư", lyricist:"RED", orig:"Haruna Kanata - ASIAN KUNG-FU GENERATION", vocalist:"BLUE", date:"May 14, 2025", link:"https://moonatics.fanlink.tv/TanDu" },
+  { title:"Luận Điểm Của Thiên Sứ Tàn Khóc", lyricist:"RED, PINK, SILVER", orig:"A Cruel Angel's Thesis", vocalist:"SILVER", date:"May 16, 2025", link:"https://moonatics.fanlink.tv/LDCTSTK" },
+  { title:"Dấu Hiệu", lyricist:"RED", orig:"SIGN - FLOW", vocalist:"RED", date:"May 21, 2025", link:"https://moonatics.fanlink.tv/DH" },
+  { title:"Khúc Bing Chling Ca Lỉnh Chi", lyricist:"SILVER", orig:"Ai♡Scream! - AiScReam", vocalist:"SILVER", date:"May 26, 2025", link:"https://moonatics.fanlink.tv/KBCLC" },
+  { title:"Nhát Súng Định Mệnh", lyricist:"PURPLE, GOLDEN", orig:"Only My Railgun - Fripside", vocalist:"PURPLE, GOLDEN", date:"May 31, 2025", link:"https://moonatics.fanlink.tv/NSDM" },
+  { title:"Anh Hùng", lyricist:"SILVER", orig:"Yuusha - YOASOBI", vocalist:"SILVER", date:"Jun 5, 2025", link:"https://moonatics.fanlink.tv/AnhHung" },
+  { title:"Khát Vọng", lyricist:"midaoli", orig:"Hollow Hunger - OxT", vocalist:"BLUE", date:"Jun 10, 2025", link:"https://moonatics.fanlink.tv/KhatVong" },
+  { title:"Em Muốn Hấp Anh", lyricist:"SILVER", orig:"Love Trap Muchuu - MAISONdes", vocalist:"SILVER", date:"Jun 15, 2025", link:"https://moonatics.fanlink.tv/EMHA" },
+  { title:"Táo Hỏng", lyricist:"RED", orig:"BAD APPLE - TOUHOU", vocalist:"VânVân", date:"Jun 27, 2025", link:"https://moonatics.fanlink.tv/TH" },
+  { title:"Bling Bang Bang Born", lyricist:"RED, midaoli", orig:"Bling Bang Bang Born - Creepy Nuts", vocalist:"BLUE", date:"Jul 4, 2025", link:"https://moonatics.fanlink.tv/BBBB" },
+  { title:"Vũ Điệu", lyricist:"SILVER", orig:"Odo - Ado", vocalist:"SILVER", date:"Jul 11, 2025", link:"https://moonatics.fanlink.tv/vudieu" },
+  { title:"Dương", lyricist:"BLUE", orig:"Blue - Yungkai", vocalist:"RED", date:"Jul 18, 2025", link:"https://moonatics.fanlink.tv/Duong" },
+  { title:"Đứa Trẻ Đố Kỵ", lyricist:"RED", orig:"Envybaby - Kanaria", vocalist:"KitakaraTome", date:"Jul 25, 2025", link:"https://moonatics.fanlink.tv/DTDK" },
+  { title:"VUA", lyricist:"RED", orig:"KING - Kanaria", vocalist:"Remind", date:"Aug 1, 2025", link:"https://moonatics.fanlink.tv/VUA" },
+  { title:"Kẻ Say Khờ", lyricist:"BLUE", orig:"Yoidore Shirazu - Kanaria", vocalist:"BLUE", date:"Aug 8, 2025", link:"https://moonatics.fanlink.tv/KeSayKho" },
+  { title:"Nữ Hoàng", lyricist:"PURPLE, RED", orig:"QUEEN - Kanaria", vocalist:"PURPLE", date:"Aug 8, 2025", link:"https://moonatics.fanlink.tv/nuhoang" },
+  { title:"Ma Vương", lyricist:"PINK", orig:"Demon Lord - Kanaria", vocalist:"PINK", date:"Aug 8, 2025", link:"https://moonatics.fanlink.tv/mavuong" },
+  { title:"Mắt Dưới", lyricist:"SILVER", orig:"EYE - Kanaria", vocalist:"SILVER", date:"Aug 8, 2025", link:"https://moonatics.fanlink.tv/MatDuoi" },
+  { title:"Thế Giới Của Em", lyricist:"PINK", orig:"World is mine - Hatsune Miku", vocalist:"PINK", date:"Aug 15, 2025", link:"https://moonatics.fanlink.tv/TGCE" },
+  { title:"Chanh", lyricist:"PINK", orig:"Lemon - Kenshi Yonezu", vocalist:"RED", date:"Aug 22, 2025", link:"https://moonatics.fanlink.tv/chanh" },
+  { title:"Chiến Đội Quyền Thú GekiRanger", lyricist:"RED", orig:"Gekiranger OP", vocalist:"BLUE", date:"Aug 29, 2025", link:"https://moonatics.fanlink.tv/ChienDoiQuyenThu" },
+  { title:"Tầm nhìn", lyricist:"RED, PINK", orig:"Vision - Kamen Rider Zetz", vocalist:"PINK", date:"Sep 7, 2025", link:"https://moonatics.fanlink.tv/TamNhin" },
+  { title:"Vòng Lặp Tình Yêu", lyricist:"SILVER", orig:"Renai Circulation - Kana Hanazawa", vocalist:"SILVER", date:"Sep 12, 2025", link:"https://moonatics.fanlink.tv/VongLapTinhYeu" },
+  { title:"Tán Anh Đào", lyricist:"PINK", orig:"SAKURA - IKIMONOGAKARI", vocalist:"PINK", date:"Sep 19, 2025", link:"https://moonatics.fanlink.tv/TanAnhDao" },
+  { title:"Hành Trình Đột Xuất", lyricist:"RED", orig:"SURPRISE DRIVE - Kamen Rider Drive", vocalist:"RED", date:"Sep 26, 2025", link:"https://moonatics.fanlink.tv/HanhTrinhDotXuat" },
+  { title:"IRIS OUT", lyricist:"BLUE", orig:"IRIS OUT - Chainsaw Man", vocalist:"BLUE", date:"Oct 3, 2025", link:"" },
+  { title:"Giả Tạo", lyricist:"SILVER", orig:"Phony - Kafu", vocalist:"SILVER", date:"Oct 10, 2025", link:"" },
+  { title:"Điên lên nào nhóc", lyricist:"RED", orig:"KYORAN HEY KIDS - THE ORAL CIGARETTES", vocalist:"BLUE", date:"Oct 17, 2025", link:"" },
+  { title:"JANE DOE", lyricist:"SILVER", orig:"JANE DOE - Chainsaw Man", vocalist:"SILVER, BLUE", date:"Oct 24, 2025", link:"" },
+  { title:"Mãi Bên Tôi", lyricist:"PINK", orig:"Itsumo Nando Demo - Spirited Away", vocalist:"PINK", date:"Oct 31, 2025", link:"" },
 ];
 
 const ALL_COVERS = [
-  ...COVERS_2024.map(s => ({...s, year:"2024"})),
-  ...COVERS_2025.map(s => ({...s, year:"2025"})),
+  ...[...COVERS_2025].reverse().map(s => ({...s, year:"2025"})),
+  ...[...COVERS_2024].reverse().map(s => ({...s, year:"2024"})),
 ];
+// ALL_COVERS is mutable — CMS can splice in new songs at the front
 
 function MusicTable({ songs }) {
+  const PER_PAGE = 50;
+  const [page, setPage] = useState(0);
+  const totalPages = Math.ceil(songs.length / PER_PAGE);
+  const pageSongs = songs.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
   return (
+    <>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12,fontSize:12,color:"rgba(196,181,253,0.55)"}}>
+      <span>{songs.length} bài • Trang {page+1}/{totalPages}</span>
+      <div style={{display:"flex",gap:6}}>
+        {Array.from({length:totalPages},(_,i)=>(
+          <button key={i} onClick={()=>setPage(i)} style={{padding:"3px 10px",borderRadius:6,border:"1px solid rgba(139,92,246,0.3)",background:page===i?"rgba(139,92,246,0.3)":"rgba(255,255,255,0.03)",color:page===i?"#c4b5fd":"rgba(196,181,253,0.5)",cursor:"pointer",fontSize:11}}>{i+1}</button>
+        ))}
+      </div>
+    </div>
     <div className="cover-list">
-      {songs.map((s, i) => (
+      {pageSongs.map((s, i) => (
         <div key={i} className="cover-card">
           {/* Artwork / number */}
           {s.artwork
@@ -1596,6 +1610,11 @@ function MusicTable({ songs }) {
         </div>
       ))}
     </div>
+    <div style={{display:"flex",justifyContent:"center",gap:6,marginTop:16}}>
+      <button onClick={()=>setPage(p=>Math.max(0,p-1))} disabled={page===0} style={{padding:"5px 14px",borderRadius:8,border:"1px solid rgba(139,92,246,0.3)",background:"rgba(255,255,255,0.03)",color:"rgba(196,181,253,0.6)",cursor:page===0?"not-allowed":"pointer",opacity:page===0?.4:1}}>← Trước</button>
+      <button onClick={()=>setPage(p=>Math.min(totalPages-1,p+1))} disabled={page===totalPages-1} style={{padding:"5px 14px",borderRadius:8,border:"1px solid rgba(139,92,246,0.3)",background:"rgba(255,255,255,0.03)",color:"rgba(196,181,253,0.6)",cursor:page===totalPages-1?"not-allowed":"pointer",opacity:page===totalPages-1?.4:1}}>Sau →</button>
+    </div>
+    </>
   );
 }
 
@@ -1692,9 +1711,15 @@ function ComicPage({ data }) {
       {!loading && files && files.length === 0 && <div style={{textAlign:"center",padding:"40px 0",color:"rgba(196,181,253,0.4)"}}>Chưa có trang nào.</div>}
       {!loading && files && files.length > 0 && (
         <div className="comic-grid">
-          {files.map((f,i) => (
-            <ZoomImg key={f.id} src={`https://lh3.googleusercontent.com/d/${f.id}`} alt={f.name} style={{width:"100%",borderRadius:16,border:"1px solid rgba(139,92,246,0.3)"}} />
-          ))}
+          {files.map((f,i) => {
+            const cleanName = f.name.replace(/^\d+[-_]?/, "").trim() || f.name;
+            return (
+              <div key={f.id}>
+                <ZoomImg src={`https://lh3.googleusercontent.com/d/${f.id}`} alt={cleanName} style={{width:"100%",borderRadius:16,border:"1px solid rgba(139,92,246,0.3)"}} />
+                {cleanName && <div style={{textAlign:"center",fontSize:11,color:"rgba(196,181,253,0.5)",marginTop:6,marginBottom:4}}>✏️ {cleanName}</div>}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
@@ -1717,12 +1742,13 @@ function DriveFolderGrid({ folderId, emptyMsg }) {
     <div className="gallery-grid">
       {files.map(f => {
         const src = `https://lh3.googleusercontent.com/d/${f.id}`;
+        const cleanName = f.name.replace(/^\d+[-_]?/, "").trim() || f.name;
         return (
           <div key={f.id} style={{position:"relative",borderRadius:12,overflow:"hidden",border:"1px solid rgba(139,92,246,0.3)"}}>
-            <ZoomImg src={src} alt={f.name} style={{width:"100%",aspectRatio:"1/1",objectFit:"cover",display:"block"}} />
-            {f.name && (
-              <div style={{position:"absolute",bottom:0,left:0,right:0,background:"rgba(0,0,0,0.6)",backdropFilter:"blur(4px)",padding:"6px 10px",fontSize:11,color:"#c4b5fd",fontWeight:600,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
-                ✏️ {f.name}
+            <ZoomImg src={src} alt={cleanName} style={{width:"100%",aspectRatio:"1/1",objectFit:"cover",display:"block"}} />
+            {cleanName && (
+              <div style={{position:"absolute",bottom:0,left:0,right:0,background:"rgba(0,0,0,0.65)",backdropFilter:"blur(4px)",padding:"6px 10px",fontSize:11,color:"#c4b5fd",fontWeight:600,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+                ✏️ {cleanName}
               </div>
             )}
           </div>
@@ -1971,7 +1997,7 @@ function MusicCMSTab({ data, onSave }) {
   const [songs, setSongs] = useState(ALL_COVERS.map(s=>({...s})));
   const update = (i,field,val) => setSongs(songs.map((x,idx)=>idx===i?{...x,[field]:val}:x));
   const del = (i) => setSongs(songs.filter((_,idx)=>idx!==i));
-  const add = () => setSongs(p=>[...p,{title:"",orig:"",vocalist:"",date:"",link:"",year:"2025"}]);
+  const add = () => setSongs(p=>[{title:"",orig:"",lyricist:"",vocalist:"",date:"",link:"",artwork:"",year:"2025"}, ...p]);
 
   return (
     <>
@@ -1997,7 +2023,7 @@ function MusicCMSTab({ data, onSave }) {
           </div>
         ))}
       </div>
-      <button className="add-btn" onClick={add}><PlusIcon /> Thêm bài hát</button>
+      <button className="add-btn" onClick={add}><PlusIcon /> Thêm bài hát (xuất hiện đầu tiên)</button>
       <div style={{fontSize:11,color:"rgba(196,181,253,0.4)",margin:"8px 0"}}>⚠️ Thay đổi sẽ có hiệu lực sau khi refresh trang.</div>
       <button className="save-btn" onClick={()=>{ ALL_COVERS.splice(0,ALL_COVERS.length,...songs); onSave({...data}); }}><SaveIcon /> Lưu</button>
     </>
