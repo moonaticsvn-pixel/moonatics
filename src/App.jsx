@@ -873,6 +873,20 @@ export default function App() {
     } catch { setData(defaultData); }
   }, []);
 
+  // Update favicon whenever logoUrl changes
+  useEffect(() => {
+    if (!data?.logoUrl) return;
+    const faviconUrl = driveImg(data.logoUrl);
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "icon";
+      document.head.appendChild(link);
+    }
+    link.href = faviconUrl;
+    link.type = "image/png";
+  }, [data?.logoUrl]);
+
   const save = async (next) => {
     setData(next);
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch {}
