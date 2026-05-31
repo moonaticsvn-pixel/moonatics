@@ -1457,7 +1457,14 @@ function OriginalTab({ releases }) {
                 ? <a href={r.mvLink} target="_blank" rel="noreferrer" style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(139,92,246,0.2)",border:"1px solid rgba(139,92,246,0.4)",color:"#c4b5fd",padding:"12px 20px",borderRadius:12,fontSize:13,fontWeight:700,textDecoration:"none"}}>▶ Xem MV</a>
                 : <div style={{color:"rgba(196,181,253,0.3)",fontSize:13,padding:"40px 0"}}>Chưa có link MV</div>
             }
-            {r.description && <div style={{marginTop:16,fontSize:13,color:"rgba(196,181,253,0.65)",lineHeight:1.7,background:"rgba(255,255,255,0.03)",border:"1px solid rgba(139,92,246,0.15)",borderRadius:12,padding:14}}>{r.description}</div>}
+            {r.description && (
+              <div style={{marginTop:16,background:"rgba(255,255,255,0.03)",border:"1px solid rgba(139,92,246,0.15)",borderRadius:12,padding:"16px 18px"}}>
+                <div style={{fontSize:11,fontWeight:700,color:"rgba(196,181,253,0.45)",letterSpacing:"0.08em",marginBottom:10,textTransform:"uppercase"}}>🎤 Lyrics</div>
+                <div style={{fontSize:13,color:"rgba(196,181,253,0.8)",lineHeight:2,whiteSpace:"pre-wrap",fontFamily:"Be Vietnam Pro, sans-serif"}}>
+                  {r.description}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1473,10 +1480,14 @@ function OriginalTab({ releases }) {
     );
   }
 
+  // Display newest first (last added = index 0 after CMS prepend)
+  const displayed = [...releases].reverse();
   return (
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:16}}>
-      {releases.map((r, i) => (
-        <div key={i} onClick={() => setDetail(i)} style={{background:"rgba(255,255,255,0.03)",border:"1px solid rgba(139,92,246,0.2)",borderRadius:14,overflow:"hidden",cursor:"pointer",transition:"transform .2s, box-shadow .2s"}}
+      {displayed.map((r, i) => {
+        const origIdx = releases.length - 1 - i;
+        return (
+        <div key={origIdx} onClick={() => setDetail(origIdx)} style={{background:"rgba(255,255,255,0.03)",border:"1px solid rgba(139,92,246,0.2)",borderRadius:14,overflow:"hidden",cursor:"pointer",transition:"transform .2s, box-shadow .2s"}}
           onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 12px 30px rgba(139,92,246,0.25)";}}
           onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
           <div style={{aspectRatio:"1/1",background:"rgba(139,92,246,0.1)"}}>
@@ -1491,7 +1502,8 @@ function OriginalTab({ releases }) {
             {r.vocal && <div style={{fontSize:10,color:"rgba(196,181,253,0.55)",marginTop:4,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>🎤 {r.vocal}</div>}
           </div>
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -2036,6 +2048,7 @@ function OriginalCMSTab({ data, onSave }) {
   const [releases, setReleases] = useState((data.originalReleases || []).map(r=>({...r})));
   const [openIdx, setOpenIdx] = useState(null);
   const update = (i, field, val) => setReleases(rs => rs.map((x,idx) => idx===i ? {...x,[field]:val} : x));
+  // New releases are prepended so they appear first (newest on left in grid)
 
   return (
     <>
@@ -2074,14 +2087,14 @@ function OriginalCMSTab({ data, onSave }) {
                   <Field label="Zing MP3 URL" value={r.zingLink} onChange={v=>update(i,"zingLink",v)} />
                   <Field label="Nhaccuatui URL" value={r.nctLink} onChange={v=>update(i,"nctLink",v)} />
                 </div>
-                <Field label="Mô tả (tuỳ chọn)" value={r.description} onChange={v=>update(i,"description",v)} textarea />
+                <Field label="🎤 Lyrics" value={r.description} onChange={v=>update(i,"description",v)} textarea />
                 <button className="icon-btn" style={{color:"#f87171",marginTop:4}} onClick={()=>setReleases(rs=>rs.filter((_,idx)=>idx!==i))}><TrashIcon /> Xoá bản nhạc này</button>
               </div>
             )}
           </div>
         ))}
       </div>
-      <button className="add-btn" onClick={()=>{setReleases(r=>[...r,blank()]);setOpenIdx(releases.length);}}><PlusIcon /> Thêm bản nhạc mới</button>
+      <button className="add-btn" onClick={()=>{setReleases(r=>[blank(),...r]);setOpenIdx(0);}}><PlusIcon /> Thêm bản nhạc mới (xuất hiện đầu tiên)</button>
       <button className="save-btn" onClick={()=>onSave({...data,originalReleases:releases})}><SaveIcon /> Lưu</button>
     </>
   );
